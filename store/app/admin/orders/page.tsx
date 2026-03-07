@@ -31,7 +31,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
         </div>
         <div className="text-right">
           <p className="text-xs text-muted-foreground">Total Revenue</p>
-          <p className="text-lg font-semibold">{formatPrice(allOrders.reduce((s, o) => s + Number(o.total), 0))}</p>
+          <p className="text-lg font-semibold">{formatPrice(allOrders.reduce((s, o) => s + Number(Number(o.total)), 0))}</p>
         </div>
       </div>
       <div className="flex items-center gap-1 border-b border-border">
@@ -69,7 +69,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                     <td className="px-4 py-3.5"><p className="text-xs font-medium">{customerName}</p><p className="text-[11px] text-muted-foreground">{customerEmail}</p></td>
                     <td className="px-4 py-3.5 text-xs text-muted-foreground">{itemCount} items</td>
                     <td className="px-4 py-3.5 text-[11px] text-muted-foreground whitespace-nowrap">{formatDateTime(order.created_at)}</td>
-                    <td className="px-4 py-3.5 text-xs font-semibold whitespace-nowrap">{formatPrice(Number(order.total))}</td>
+                    <td className="px-4 py-3.5 text-xs font-semibold whitespace-nowrap">{formatPrice(Number(Number(order.total)))}</td>
                     <td className="px-4 py-3.5">
                       <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium whitespace-nowrap ${statusColors[order.status] ?? ""}`}>
                         {statusLabels[order.status] ?? order.status}
