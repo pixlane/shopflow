@@ -1,5 +1,8 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
+
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ShieldCheck, Lock } from "lucide-react";
@@ -304,3 +307,4 @@ function inputCls(error?: string) {
     error ? "border-destructive" : "border-input"
   }`;
 }
+
