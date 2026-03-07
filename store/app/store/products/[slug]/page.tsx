@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Truck, RotateCcw, ShieldCheck, Star } from "lucide-react";
 import { getProducts, getProductBySlug } from "@/lib/store";
 import { formatPrice } from "@/lib/utils";
 import { AddToCartButton } from "@/components/store/add-to-cart-button";
@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export function generateMetadata({ params }: { params: { slug: string } }) {
   const product = getProductBySlug(params.slug);
   if (!product) return {};
-  return { title: product.name, description: product.description };
+  return { title: `${product.name} — Atelier`, description: product.description };
 }
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
@@ -28,115 +28,162 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     : null;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div>
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-8">
-        <Link href="/store" className="hover:text-foreground transition-colors">Home</Link>
-        <ChevronRight size={12} />
-        <Link href="/store/products" className="hover:text-foreground transition-colors">Products</Link>
-        <ChevronRight size={12} />
-        <Link href={`/store/products?category=${product.category.slug}`} className="hover:text-foreground transition-colors">
-          {product.category.name}
-        </Link>
-        <ChevronRight size={12} />
-        <span className="text-foreground font-medium truncate max-w-[140px]">{product.name}</span>
-      </nav>
-
-      {/* Main grid */}
-      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
-        {/* Images */}
-        <div className="space-y-3">
-          <div className="relative aspect-square rounded-xl overflow-hidden bg-secondary">
-            {product.images[0] ? (
-              <Image src={product.images[0]} alt={product.name} fill priority className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
-            ) : (
-              <div className="h-full w-full flex items-center justify-center text-muted-foreground text-sm">No image</div>
-            )}
-            {discount && (
-              <div className="absolute top-4 left-4 bg-foreground text-background text-[11px] font-semibold px-2.5 py-1 rounded-full">
-                −{discount}%
-              </div>
-            )}
-          </div>
-          {product.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {product.images.map((img, i) => (
-                <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-secondary border-2 border-transparent hover:border-foreground/30 cursor-pointer transition-colors">
-                  <Image src={img} alt={`${product.name} ${i + 1}`} fill className="object-cover" sizes="15vw" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Info */}
-        <div className="flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <Link href={`/store/products?category=${product.category.slug}`} className="text-[11px] tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
-              {product.category.name}
-            </Link>
-            <span className="text-[11px] text-muted-foreground font-mono">{product.sku}</span>
-          </div>
-
-          <h1 className="text-3xl font-light tracking-tight text-foreground mb-4">{product.name}</h1>
-
-          <div className="flex items-baseline gap-3 mb-6">
-            <span className="text-2xl font-medium">{formatPrice(product.price)}</span>
-            {product.comparePrice && (
-              <span className="text-base text-muted-foreground line-through">{formatPrice(product.comparePrice)}</span>
-            )}
-          </div>
-
-          <p className="text-sm text-muted-foreground leading-relaxed mb-8">{product.description}</p>
-
-          <div className="mb-6">
-            {product.stock > 4 ? (
-              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-700">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />In stock
-              </span>
-            ) : product.stock > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-xs text-amber-700">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block" />Only {product.stock} remaining
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground inline-block" />Out of stock
-              </span>
-            )}
-          </div>
-
-          <AddToCartButton product={product} />
-
-          <div className="h-px bg-border my-8" />
-
-          <div className="space-y-3">
-            <h3 className="text-xs font-semibold tracking-widest uppercase">About this piece</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{product.longDescription}</p>
-          </div>
-
-          {product.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {product.tags.map((tag) => (
-                <span key={tag} className="h-6 px-2.5 inline-flex items-center rounded-full border border-border text-[11px] text-muted-foreground">{tag}</span>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-8 rounded-lg bg-secondary px-4 py-3">
-            <p className="text-xs text-muted-foreground">Free shipping on orders over $150 · Usually ships in 3–5 business days</p>
-          </div>
+      <div className="border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-[11px] text-muted-foreground">
+          <Link href="/store" className="hover:text-foreground transition-colors">Home</Link>
+          <ChevronRight size={11} />
+          <Link href="/store/products" className="hover:text-foreground transition-colors">Shop</Link>
+          <ChevronRight size={11} />
+          <Link href={`/store/products?category=${product.category.slug}`} className="hover:text-foreground transition-colors">{product.category.name}</Link>
+          <ChevronRight size={11} />
+          <span className="text-foreground">{product.name}</span>
         </div>
       </div>
 
-      {/* Related products */}
-      {related.length > 0 && (
-        <div className="mt-20">
-          <h2 className="text-xl font-light tracking-tight mb-8">More from {product.category.name}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {related.map((p) => <ProductCard key={p.id} product={p} />)}
+      {/* Main */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_480px] gap-12 xl:gap-20 items-start">
+
+          {/* Images */}
+          <div className="space-y-3">
+            <div className="relative overflow-hidden rounded-xl bg-secondary" style={{ aspectRatio: "4/5" }}>
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+              />
+              {discount && (
+                <div className="absolute top-4 left-4 rounded-sm px-2.5 py-1 text-xs font-medium text-white" style={{ backgroundColor: "hsl(220, 35%, 14%)" }}>
+                  -{discount}%
+                </div>
+              )}
+            </div>
+            {product.images.slice(1, 3).length > 0 && (
+              <div className="grid grid-cols-2 gap-3">
+                {product.images.slice(1, 3).map((img, i) => (
+                  <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-secondary">
+                    <Image src={img} alt={`${product.name} ${i + 2}`} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="30vw" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Info */}
+          <div className="lg:sticky lg:top-24 space-y-6">
+            {/* Category + name */}
+            <div>
+              <Link
+                href={`/store/products?category=${product.category.slug}`}
+                className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-colors font-sans"
+              >
+                {product.category.name}
+              </Link>
+              <h1 className="font-display text-3xl lg:text-4xl font-normal mt-2 leading-tight">{product.name}</h1>
+
+              {/* Rating mock */}
+              <div className="flex items-center gap-2 mt-3">
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={12} className="fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="text-[12px] text-muted-foreground">4.9 (23 reviews)</span>
+              </div>
+            </div>
+
+            {/* Price */}
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl font-medium">{formatPrice(product.price)}</span>
+              {product.comparePrice && (
+                <span className="text-base text-muted-foreground line-through">{formatPrice(product.comparePrice)}</span>
+              )}
+              {discount && (
+                <span className="text-sm font-medium text-amber-600">Save {discount}%</span>
+              )}
+            </div>
+
+            {/* Description */}
+            {product.description && (
+              <p className="text-sm text-muted-foreground leading-relaxed font-light border-t border-border pt-6">
+                {product.description}
+              </p>
+            )}
+
+            {/* Stock */}
+            <div className="flex items-center gap-2">
+              <div className={`h-2 w-2 rounded-full ${product.stock > 5 ? "bg-emerald-500" : product.stock > 0 ? "bg-amber-500" : "bg-red-400"}`} />
+              <span className="text-xs text-muted-foreground font-sans">
+                {product.stock > 5 ? "In stock" : product.stock > 0 ? `Only ${product.stock} left` : "Out of stock"}
+              </span>
+            </div>
+
+            {/* Add to cart */}
+            <AddToCartButton product={product} />
+
+            {/* Specs */}
+            {(product.sku || product.weight) && (
+              <div className="border-t border-border pt-6 space-y-2.5">
+                <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-sans mb-3">Details</p>
+                {product.sku && (
+                  <div className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">SKU</span>
+                    <span className="font-medium font-mono">{product.sku}</span>
+                  </div>
+                )}
+                {product.weight && (
+                  <div className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">Weight</span>
+                    <span>{product.weight}g</span>
+                  </div>
+                )}
+                {product.tags?.length > 0 && (
+                  <div className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">Tags</span>
+                    <span>{product.tags.join(", ")}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Shipping info */}
+            <div className="border-t border-border pt-6 space-y-3">
+              {[
+                { icon: Truck, title: "Free shipping", desc: "On orders over $150" },
+                { icon: RotateCcw, title: "30-day returns", desc: "Easy and hassle-free" },
+                { icon: ShieldCheck, title: "Certified authentic", desc: "Verified by artisans" },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-sm bg-secondary flex items-center justify-center shrink-0">
+                    <Icon size={14} className="text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium">{title}</p>
+                    <p className="text-[11px] text-muted-foreground">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Related products */}
+        {related.length > 0 && (
+          <section className="mt-24 pt-12 border-t border-border">
+            <div className="mb-8">
+              <p className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2 font-sans">More from</p>
+              <h2 className="font-display text-2xl lg:text-3xl font-normal">{product.category.name}</h2>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {related.map((p) => <ProductCard key={p.id} product={p} />)}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
