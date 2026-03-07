@@ -33,9 +33,7 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     return matchSearch && matchCat;
   });
 
-  const categories = [
-    ...new Set(products.map((p) => p.category.slug)),
-  ];
+ const categories = Array.from(new Set(products.map((p) => p.category.slug)));
 
   async function handleDelete() {
     if (!toDelete) return;
