@@ -8,7 +8,7 @@ import { formatPrice } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const allProducts = await await getProducts();
+  const allProducts = await getProducts();
   const featured = allProducts.filter((p) => p.is_featured).slice(0, 4);
   const newArrivals = allProducts.slice(0, 8);
   const hero = allProducts[0];
