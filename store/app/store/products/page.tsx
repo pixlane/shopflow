@@ -10,7 +10,7 @@ export default async function ProductsPage({
 }: {
   searchParams: { category?: string; q?: string; sort?: string };
 }) {
-  const allProducts = await getProducts({ published: true });
+  const allProducts = await getProducts({ });
   const categories = await getCategories();
 
   let filtered: Product[] = allProducts;
