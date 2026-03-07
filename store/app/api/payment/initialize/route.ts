@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
     const shipping = subtotal >= 15000 ? 0 : 1500; // $15 shipping under $150
     const totalAmount = subtotal + shipping;
 
-    const { adapter, config } = getActiveAdapter();
+    const { adapter, config } = await getActiveAdapter();
 
     // Validate config before proceeding
     const validationError = adapter.validateConfig(config);
