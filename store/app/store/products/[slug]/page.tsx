@@ -20,7 +20,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   if (!product) notFound();
 
   const _allProds = await getProducts({ });
-  const related = _allProds
+    const related = _allProds
     .filter((p) => p.id !== product.id && (p.categories as any)?.id === (product.categories as any)?.id)
     .slice(0, 4);
 
