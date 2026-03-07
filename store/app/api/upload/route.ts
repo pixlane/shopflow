@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addMedia } from "@/lib/store";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,26 +25,39 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const buffer = await file.arrayBuffer();
-    const base64 = Buffer.from(buffer).toString("base64");
-    const dataUrl = `data:${file.type};base64,${base64}`;
+    // Generate unique filename
+    const ext = file.name.split(".").pop();
+    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const path = `products/${filename}`;
 
-    const media = addMedia({
-      url: dataUrl,
-      filename: file.name,
-      size: file.size,
-      mimeType: file.type,
-      alt: file.name.replace(/\.[^.]+$/, ""),
-    });
+    const buffer = await file.arrayBuffer();
+
+    // Upload to Supabase Storage
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from("media")
+      .upload(path, buffer, {
+        contentType: file.type,
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Supabase storage upload error:", uploadError);
+      return NextResponse.json({ error: uploadError.message }, { status: 500 });
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from("media")
+      .getPublicUrl(path);
 
     return NextResponse.json(
       {
         data: {
-          url: media.url,
-          filename: media.filename,
-          size: media.size,
-          mimeType: media.mimeType,
-          id: media.id,
+          url: publicUrl,
+          filename: file.name,
+          size: file.size,
+          mimeType: file.type,
+          id: path,
         },
       },
       { status: 201 }
