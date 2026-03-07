@@ -60,10 +60,10 @@ export default function HomePage() {
             {/* Hero image grid */}
             <div className="relative grid grid-cols-2 gap-3 h-[500px] lg:h-[640px] initial-hidden animate-fade-up delay-200">
               <div className="relative rounded-sm overflow-hidden row-span-2">
-                <Image src="https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
+                <Image src="https://images.pexels.com/photos/3094218/pexels-photo-3094218.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
               </div>
               <div className="relative rounded-sm overflow-hidden">
-                <Image src="https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Glass" fill className="object-cover" sizes="20vw" />
+                <Image src="https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Glass" fill className="object-cover" sizes="20vw" />
               </div>
               <div className="relative rounded-sm overflow-hidden">
                 <Image src="https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wood" fill className="object-cover" sizes="20vw" />
@@ -81,20 +81,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── MARQUEE ── */}
-      <div className="py-3 border-y border-border overflow-hidden bg-white">
-        <div className="flex gap-0 whitespace-nowrap" style={{ animation: "scroll 25s linear infinite" }}>
-          {Array.from({ length: 8 }).flatMap((_, i) =>
-            ["Handmade by artisans", "Free shipping $150+", "30-day returns", "Certified authentic", "New arrivals weekly"].map(t => (
-              <span key={`${i}-${t}`} className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mx-10 shrink-0">
-                {t} <span style={{ color: "var(--gold)" }}>✦</span>
-              </span>
-            ))
-          )}
-        </div>
-        <style>{`@keyframes scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }`}</style>
-      </div>
-
       {/* ── CATEGORIES ── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
         {/* Section header */}
@@ -109,8 +95,8 @@ export default function HomePage() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { slug: "ceramic", label: "Ceramic", img: "https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=600", count: 24 },
-            { slug: "glass",   label: "Glass",   img: "https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=600", count: 18 },
+            { slug: "ceramic", label: "Ceramic", img: "https://images.pexels.com/photos/3094218/pexels-photo-3094218.jpeg?auto=compress&cs=tinysrgb&w=600", count: 24 },
+            { slug: "glass",   label: "Glass",   img: "https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600", count: 18 },
             { slug: "wood",    label: "Wood",    img: "https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600", count: 15 },
             { slug: "textile", label: "Textile", img: "https://images.pexels.com/photos/6045028/pexels-photo-6045028.jpeg?auto=compress&cs=tinysrgb&w=600", count: 31 },
           ].map((cat) => (
