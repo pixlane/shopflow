@@ -1,80 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+import type { Metadata } from "next";
+import { Josefin_Sans } from "next/font/google";
+import "./globals.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  variable: "--font-josefin",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
-@layer base {
-  :root {
-    --background: 36 28% 96%;
-    --foreground: 220 20% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 12%;
-    --primary: 220 20% 12%;
-    --primary-foreground: 36 28% 96%;
-    --secondary: 36 22% 92%;
-    --secondary-foreground: 220 20% 12%;
-    --muted: 36 15% 90%;
-    --muted-foreground: 220 10% 50%;
-    --accent: 28 55% 48%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 30 14% 86%;
-    --input: 30 14% 86%;
-    --ring: 220 20% 12%;
-    --radius: 0.25rem;
-  }
-}
+export const metadata: Metadata = {
+  title: { default: "Atelier — Handcrafted Objects", template: "%s | Atelier" },
+  description: "A curated collection of handcrafted ceramics, glass, wood, and textiles.",
+};
 
-@layer base {
-  * { @apply border-border; }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
-    @apply tracking-tight;
-  }
-}
-
-@layer utilities {
-  .font-display { font-family: 'Playfair Display', Georgia, serif; }
-
-  .text-balance { text-wrap: balance; }
-
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { @apply bg-transparent; }
-  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
-  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/40; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  .animate-fade-up { animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
-  .animate-fade-in { animation: fadeIn 0.5s ease forwards; }
-  .delay-100 { animation-delay: 0.1s; }
-  .delay-200 { animation-delay: 0.2s; }
-  .delay-300 { animation-delay: 0.3s; }
-  .delay-400 { animation-delay: 0.4s; }
-  .delay-500 { animation-delay: 0.5s; }
-  .initial-hidden { opacity: 0; }
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning className={josefin.variable}>
+      <body className="min-h-screen bg-background antialiased">
+        {children}
+      </body>
+    </html>
+  );
 }
