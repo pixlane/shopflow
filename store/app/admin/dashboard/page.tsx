@@ -6,19 +6,21 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import Link from "next/link";
-import { getOrders, getProducts } from "@/lib/store";
+import { getAllOrders, getProducts } from "@/lib/store";
 import { formatPrice, formatDateTime, ORDER_STATUS_COLORS, ORDER_STATUS_LABELS } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export default function DashboardPage() {
-  const orders = getOrders();
-  const products = getProducts();
+export default async function DashboardPage() {
+  const [orders, products] = await Promise.all([
+    getAllOrders(),
+    getProducts(),
+  ]);
 
   const stats = [
     {
       label: "Total Revenue",
-      value: formatPrice(orders.reduce((s, o) => s + o.total, 0)),
+      value: formatPrice(orders.reduce((s, o) => s + Number(o.total), 0)),
       change: +12.5,
       icon: TrendingUp,
     },
@@ -36,7 +38,7 @@ export default function DashboardPage() {
     },
     {
       label: "Customers",
-      value: new Set(orders.map((o) => o.customer.email)).size.toString(),
+      value: new Set(orders.map((o) => o.guest_email ?? o.user_id ?? "guest")).size.toString(),
       change: +5.1,
       icon: Users,
     },
@@ -93,23 +95,37 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {recent.map((order) => (
-                  <tr key={order.id} className="hover:bg-secondary/50 transition-colors">
-                    <td className="px-5 py-3.5 font-mono text-xs text-muted-foreground">
-                      <Link href={`/admin/orders/${order.id}`} className="hover:text-foreground transition-colors">
-                        {order.orderNumber}
-                      </Link>
-                    </td>
-                    <td className="px-5 py-3.5 text-xs">{order.customer.name}</td>
-                    <td className="px-5 py-3.5 text-xs text-muted-foreground whitespace-nowrap">{formatDateTime(order.createdAt)}</td>
-                    <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(order.total)}</td>
-                    <td className="px-5 py-3.5">
-                      <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${ORDER_STATUS_COLORS[order.status]}`}>
-                        {ORDER_STATUS_LABELS[order.status]}
-                      </span>
+                {recent.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-5 py-6 text-center text-xs text-muted-foreground">
+                      No orders yet
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  recent.map((order) => {
+                    const profile = (order as any).profiles;
+                    const customerName = profile?.full_name ?? order.guest_email ?? "Guest";
+                    return (
+                      <tr key={order.id} className="hover:bg-secondary/50 transition-colors">
+                        <td className="px-5 py-3.5 font-mono text-xs text-muted-foreground">
+                          <Link href={`/admin/orders/${order.id}`} className="hover:text-foreground transition-colors">
+                            {order.order_number}
+                          </Link>
+                        </td>
+                        <td className="px-5 py-3.5 text-xs">{customerName}</td>
+                        <td className="px-5 py-3.5 text-xs text-muted-foreground whitespace-nowrap">
+                          {formatDateTime(order.created_at)}
+                        </td>
+                        <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(Number(order.total))}</td>
+                        <td className="px-5 py-3.5">
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${ORDER_STATUS_COLORS[order.status]}`}>
+                            {ORDER_STATUS_LABELS[order.status]}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
@@ -130,11 +146,13 @@ export default function DashboardPage() {
             {lowStock.map((p) => (
               <div key={p.id} className="flex items-center gap-3 px-5 py-3.5">
                 <div className="relative h-10 w-10 rounded-md overflow-hidden bg-secondary shrink-0">
-                  {p.images[0] && <img src={p.images[0]} alt={p.name} className="h-full w-full object-cover" />}
+                  {p.images[0] && (
+                    <img src={p.images[0]} alt={p.name} className="h-full w-full object-cover" />
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-medium truncate">{p.name}</p>
-                  <p className="text-[11px] text-muted-foreground font-mono">{p.sku}</p>
+                  <p className="text-[11px] text-muted-foreground font-mono">{p.slug}</p>
                 </div>
                 <span className={`text-[11px] font-semibold shrink-0 ${p.stock <= 2 ? "text-red-600" : "text-amber-600"}`}>
                   {p.stock} left
