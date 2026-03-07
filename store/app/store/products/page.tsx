@@ -14,7 +14,7 @@ export default async function ProductsPage({
 
   let filtered: Product[] = allProducts;
   if (searchParams.category) {
-    filtered = filtered.filter((p) => (p.categories as any).slug === searchParams.category);
+    filtered = filtered.filter((p) => (p as any).categories?.slug === searchParams.category);
   }
   if (searchParams.q) {
     const q = searchParams.q.toLowerCase();
