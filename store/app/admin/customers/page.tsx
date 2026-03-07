@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminCustomersPage() {
   const [orders, profiles] = await Promise.all([
-    getAllOrders(),
-    getCustomers(),
+    await getAllOrders(),
+    await getCustomers(),
   ]);
 
   // Build customer summary from orders + profiles
@@ -39,13 +39,12 @@ export default async function AdminCustomersPage() {
         city,
         orderCount: 0,
         totalSpent: 0,
-        lastOrder: order.created_at,
-      });
+        lastOrder: order.created_at });
     }
 
     const c = customerMap.get(email)!;
     c.orderCount += 1;
-    c.totalSpent += Number(order.total);
+    c.totalSpent += Number(Number(order.total));
     if (new Date(order.created_at) > new Date(c.lastOrder)) {
       c.lastOrder = order.created_at;
     }
@@ -62,8 +61,7 @@ export default async function AdminCustomersPage() {
         city: "—",
         orderCount: 0,
         totalSpent: 0,
-        lastOrder: profile.created_at,
-      });
+        lastOrder: profile.created_at });
     }
   }
 
