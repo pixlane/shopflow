@@ -1,7 +1,7 @@
 "use server"
 
 import { supabaseAdmin } from './supabase-admin'
-export type Category = { id: string; name: string; slug: string; description?: string | null; image_url?: string | null; created_at?: string; updated_at?: string }
+export type Category = { id: string; name: string; slug: string; description?: string | null; image_url?: string | null; sort_order?: number | null; sortOrder?: number | null; created_at?: string; updated_at?: string; [key: string]: any }
 export type Product = { id: string; name: string; slug: string; description?: string | null; price: number; compare_price?: number | null; category_id?: string | null; images: string[]; stock: number; is_featured?: boolean; is_new?: boolean; badge?: string | null; tags?: string[]; sku?: string | null; weight?: number | null; created_at?: string; updated_at?: string }
 export type ProductWithCategory = Product & { categories?: Category | null }
 export type Order = { id: string; order_number?: string; user_id?: string | null; guest_email?: string | null; subtotal: number; shipping_cost: number; discount: number; total: number; shipping_address?: Record<string,string>; payment_method?: string | null; status: string; created_at?: string; updated_at?: string }
