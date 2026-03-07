@@ -46,6 +46,8 @@ export default async function DashboardPage() {
 
   const recent = orders.slice(0, 5);
   const lowStock = products.filter((p) => p.stock <= 6);
+  const statusColors = ORDER_STATUS_COLORS as Record<string, string>;
+  const statusLabels = ORDER_STATUS_LABELS as Record<string, string>;
 
   return (
     <div className="space-y-6 max-w-6xl">
@@ -118,8 +120,8 @@ export default async function DashboardPage() {
                         </td>
                         <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(Number(order.total))}</td>
                         <td className="px-5 py-3.5">
-                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${ORDER_STATUS_COLORS[order.status]}`}>
-                           ORDER_STATUS_LABELS[order.status as keyof typeof ORDER_STATUS_LABELS]
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${statusColors[order.status] ?? ""}`}>
+                            {statusLabels[order.status] ?? order.status}
                           </span>
                         </td>
                       </tr>
