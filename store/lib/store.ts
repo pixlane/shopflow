@@ -1,7 +1,11 @@
 "use server"
 
 import { supabaseAdmin } from './supabase-admin'
-import type { Product, Category, Order, ProductWithCategory } from '@/types/supabase'
+// Inline types (replaces missing @/types/supabase)
+export type Product = Record<string, any>
+export type Category = Record<string, any>
+export type Order = Record<string, any> & { status: string }
+export type ProductWithCategory = Record<string, any>
 
 // ── PRODUCTS ──────────────────────────────────────────
 
