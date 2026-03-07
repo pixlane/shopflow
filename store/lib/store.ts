@@ -254,3 +254,217 @@ export async function validateDiscountCode(code: string, orderAmount: number) {
     discountAmount: Math.min(discountAmount, orderAmount),
   }
 }
+// Bu fonksiyonları store.ts'in SONUNA ekle
+
+// ── ALIAS / COMPAT exports ────────────────────────────
+// Eski isimlerle çağrılan fonksiyonlar için alias
+
+export { getAllOrders as getOrders } from './store'
+
+// ── CREATE / UPDATE / DELETE PRODUCTS ─────────────────
+
+export async function createProduct(data: {
+  name: string
+  slug: string
+  description?: string
+  price: number
+  compare_price?: number
+  category_id?: string
+  images?: string[]
+  stock?: number
+  is_featured?: boolean
+  is_new?: boolean
+  badge?: string
+  tags?: string[]
+}) {
+  const { data: product, error } = await supabaseAdmin
+    .from('products')
+    .insert(data)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('createProduct error:', error)
+    return null
+  }
+  return product
+}
+
+export async function updateProduct(id: string, data: Partial<{
+  name: string
+  slug: string
+  description: string
+  price: number
+  compare_price: number
+  category_id: string
+  images: string[]
+  stock: number
+  is_featured: boolean
+  is_new: boolean
+  badge: string
+  tags: string[]
+}>) {
+  const { data: product, error } = await supabaseAdmin
+    .from('products')
+    .update(data)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('updateProduct error:', error)
+    return null
+  }
+  return product
+}
+
+export async function deleteProduct(id: string) {
+  const { error } = await supabaseAdmin
+    .from('products')
+    .delete()
+    .eq('id', id)
+
+  return !error
+}
+
+// ── CREATE / UPDATE / DELETE CATEGORIES ──────────────
+
+export async function createCategory(data: {
+  name: string
+  slug: string
+  description?: string
+  image_url?: string
+}) {
+  const { data: category, error } = await supabaseAdmin
+    .from('categories')
+    .insert(data)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('createCategory error:', error)
+    return null
+  }
+  return category
+}
+
+export async function updateCategory(id: string, data: Partial<{
+  name: string
+  slug: string
+  description: string
+  image_url: string
+}>) {
+  const { data: category, error } = await supabaseAdmin
+    .from('categories')
+    .update(data)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) return null
+  return category
+}
+
+export async function deleteCategory(id: string) {
+  const { error } = await supabaseAdmin
+    .from('categories')
+    .delete()
+    .eq('id', id)
+
+  return !error
+}
+
+// ── CUSTOMERS (alias for profiles) ────────────────────
+
+export async function getCustomers() {
+  const { data, error } = await supabaseAdmin
+    .from('profiles')
+    .select('*')
+    .eq('role', 'customer')
+    .order('created_at', { ascending: false })
+
+  if (error) return []
+  return data ?? []
+}
+
+export async function getCustomerById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from('profiles')
+    .select('*, orders(*)')
+    .eq('id', id)
+    .single()
+
+  if (error) return null
+  return data
+}
+
+// ── MEDIA (Supabase Storage) ───────────────────────────
+
+export async function getMediaFiles() {
+  const { data, error } = await supabaseAdmin.storage
+    .from('media')
+    .list('products', { sortBy: { column: 'created_at', order: 'desc' } })
+
+  if (error) return []
+
+  return (data ?? []).map((file) => {
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from('media')
+      .getPublicUrl(`products/${file.name}`)
+    return {
+      id: file.id,
+      filename: file.name,
+      url: publicUrl,
+      size: file.metadata?.size ?? 0,
+      mimeType: file.metadata?.mimetype ?? '',
+      alt: file.name.replace(/\.[^.]+$/, ''),
+    }
+  })
+}
+
+export async function deleteMedia(path: string) {
+  const { error } = await supabaseAdmin.storage
+    .from('media')
+    .remove([path])
+
+  return !error
+}
+
+// ── DISCOUNT CODES CRUD ───────────────────────────────
+
+export async function getDiscountCodes() {
+  const { data, error } = await supabaseAdmin
+    .from('discount_codes')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) return []
+  return data ?? []
+}
+
+export async function createDiscountCode(data: {
+  code: string
+  type: 'percentage' | 'fixed'
+  value: number
+  min_order_amount?: number
+  max_uses?: number
+  expires_at?: string
+}) {
+  const { data: code, error } = await supabaseAdmin
+    .from('discount_codes')
+    .insert({ ...data, code: data.code.toUpperCase() })
+    .select()
+    .single()
+
+  if (error) return null
+  return code
+}
+
+export async function toggleDiscountCode(id: string, isActive: boolean) {
+  const { error } = await supabaseAdmin
+    .from('discount_codes')
+    .update({ is_active: isActive })
+    .eq('id', id)
+
+  return !error
+}
