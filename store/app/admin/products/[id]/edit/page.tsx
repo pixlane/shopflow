@@ -15,31 +15,32 @@ export default async function EditProductPage({ params }: { params: { id: string
 
   if (!dbProduct) notFound();
 
+  const p = dbProduct as any;
   const product: Product = {
-    id: dbProduct.id,
-    name: dbProduct.name,
-    slug: dbProduct.slug,
-    description: dbProduct.description ?? "",
-    longDescription: (dbProduct as any).long_description ?? "",
-    price: dbProduct.price,
-    comparePrice: dbProduct.compare_price ?? undefined,
-    images: dbProduct.images ?? [],
+    id: p.id,
+    name: p.name,
+    slug: p.slug,
+    description: p.description ?? "",
+    longDescription: p.long_description ?? "",
+    price: p.price,
+    comparePrice: p.compare_price ?? undefined,
+    images: p.images ?? [],
     category: {
-      id: dbProduct.category_id ?? (dbProduct as any).categories?.id ?? "",
-      name: (dbProduct as any).categories?.name ?? "",
-      slug: (dbProduct as any).categories?.slug ?? "",
-      sortOrder: (dbProduct as any).categories?.sort_order ?? 0,
-      createdAt: (dbProduct as any).categories?.created_at ?? "",
-      updatedAt: (dbProduct as any).categories?.updated_at ?? "",
+      id: p.categories?.id ?? p.category_id ?? "",
+      name: p.categories?.name ?? "",
+      slug: p.categories?.slug ?? "",
+      sortOrder: p.categories?.sort_order ?? 0,
+      createdAt: p.categories?.created_at ?? "",
+      updatedAt: p.categories?.updated_at ?? "",
     },
-    tags: Array.isArray(dbProduct.tags) ? dbProduct.tags : [],
-    stock: dbProduct.stock,
-    sku: (dbProduct as any).sku ?? "",
-    weight: dbProduct.weight ?? undefined,
-    featured: dbProduct.is_featured ?? false,
-    published: (dbProduct as any).is_published ?? (dbProduct.stock > 0),
-    createdAt: dbProduct.created_at ?? "",
-    updatedAt: dbProduct.updated_at ?? "",
+    tags: Array.isArray(p.tags) ? p.tags : [],
+    stock: p.stock,
+    sku: p.sku ?? "",
+    weight: p.weight ?? undefined,
+    featured: p.is_featured ?? false,
+    published: p.is_published ?? (p.stock > 0),
+    createdAt: p.created_at ?? "",
+    updatedAt: p.updated_at ?? "",
   };
 
   return (
@@ -53,7 +54,7 @@ export default async function EditProductPage({ params }: { params: { id: string
           <p className="text-xs text-muted-foreground mt-0.5">{product.name}</p>
         </div>
       </div>
-      <ProductForm product={product} categories={categories} />
+      <ProductForm product={product} categories={categories as any} />
     </div>
   );
 }
