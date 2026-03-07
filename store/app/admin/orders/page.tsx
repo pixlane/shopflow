@@ -18,7 +18,7 @@ const STATUS_TABS: { label: string; value: OrderStatus | "all" }[] = [
 
 export default function AdminOrdersPage({ searchParams }: { searchParams: { status?: string } }) {
   const allOrders = getOrders();
-  const activeStatus = (searchParams.status as OrderStatus) || "all";
+ const activeStatus = (searchParams.status as OrderStatus | "all") || "all";
   const sorted = activeStatus === "all"
     ? allOrders
     : allOrders.filter((o) => o.status === activeStatus);
