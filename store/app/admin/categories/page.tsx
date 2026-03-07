@@ -1,9 +1,7 @@
 import { getCategories } from "@/lib/store";
 import { CategoriesClient } from "@/components/admin/categories-client";
-
 export const dynamic = "force-dynamic";
-
-export default function AdminCategoriesPage() {
-  const categories = getCategories();
+export default async function AdminCategoriesPage() {
+  const categories = await getCategories();
   return <CategoriesClient initialCategories={categories} />;
 }
