@@ -6,7 +6,6 @@ const nextConfig = {
       { protocol: "https", hostname: "plus.unsplash.com" },
     ],
   },
-  serverExternalPackages: ["iyzipay", "stripe"],
 };
 
 export default nextConfig;
