@@ -5,13 +5,13 @@ import type { Product } from "@/types";
 
 export const dynamic = "force-dynamic";
 
-export default function ProductsPage({
+export default async function ProductsPage({
   searchParams,
 }: {
   searchParams: { category?: string; q?: string; sort?: string };
 }) {
-  const allProducts = getProducts({ published: true });
-  const categories = getCategories();
+  const allProducts = await getProducts({ published: true });
+  const categories = await getCategories();
 
   let filtered: Product[] = allProducts;
   if (searchParams.category) {
