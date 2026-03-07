@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getOrders } from "@/lib/store";
-import type { OrderStatus } from "@/types";
-
+import { getAllOrders } from "@/lib/store";
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const status = searchParams.get("status") as OrderStatus | null;
-  const orders = getOrders(status ? { status } : undefined);
+  const status = searchParams.get("status");
+  const allOrders = await getAllOrders();
+  const orders = status ? allOrders.filter((o) => o.status === status) : allOrders;
   return NextResponse.json({ data: orders, total: orders.length });
 }
