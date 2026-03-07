@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { CheckCircle2, ArrowRight, ShoppingBag } from "lucide-react";
 
@@ -45,3 +47,4 @@ export default function CheckoutSuccessPage({
     </div>
   );
 }
+
