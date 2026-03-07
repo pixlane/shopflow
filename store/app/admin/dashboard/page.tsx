@@ -119,7 +119,7 @@ export default async function DashboardPage() {
                         <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(Number(order.total))}</td>
                         <td className="px-5 py-3.5">
                           <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${ORDER_STATUS_COLORS[order.status]}`}>
-                            {ORDER_STATUS_LABELS[order.status]}
+                           ORDER_STATUS_LABELS[order.status as keyof typeof ORDER_STATUS_LABELS]
                           </span>
                         </td>
                       </tr>
