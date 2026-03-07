@@ -19,9 +19,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const _allProds = await getProducts({ });
+  const _allProds = await getProducts();
     const related = _allProds
-    .filter((p) => p.id !== product.id && (p.categories as any)?.id === (product.categories as any)?.id)
+    .filter((p) => p.id !== product.id && p.category_id === product.category_id)
     .slice(0, 4);
 
   const discount = product.compare_price
