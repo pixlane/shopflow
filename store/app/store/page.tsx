@@ -60,10 +60,10 @@ export default function HomePage() {
             {/* Hero image grid */}
             <div className="relative grid grid-cols-2 gap-3 h-[500px] lg:h-[640px] initial-hidden animate-fade-up delay-200">
               <div className="relative rounded-sm overflow-hidden row-span-2">
-                <Image src="https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
+                <Image src="https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
               </div>
               <div className="relative rounded-sm overflow-hidden">
-                <Image src="https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Glass" fill className="object-cover" sizes="20vw" />
+                <Image src="https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Glass" fill className="object-cover" sizes="20vw" />
               </div>
               <div className="relative rounded-sm overflow-hidden">
                 <Image src="https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wood" fill className="object-cover" sizes="20vw" />
@@ -109,8 +109,8 @@ export default function HomePage() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { slug: "ceramic", label: "Ceramic", img: "https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=600", count: 24 },
-            { slug: "glass",   label: "Glass",   img: "https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=600", count: 18 },
+            { slug: "ceramic", label: "Ceramic", img: "https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=600", count: 24 },
+            { slug: "glass",   label: "Glass",   img: "https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=600", count: 18 },
             { slug: "wood",    label: "Wood",    img: "https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600", count: 15 },
             { slug: "textile", label: "Textile", img: "https://images.pexels.com/photos/6045028/pexels-photo-6045028.jpeg?auto=compress&cs=tinysrgb&w=600", count: 31 },
           ].map((cat) => (
@@ -147,10 +147,7 @@ export default function HomePage() {
             {featured.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
           <div className="text-center mt-10">
-            <Link href="/store/products"
-              className="inline-flex items-center gap-2 px-8 py-3 text-[13px] font-semibold tracking-[0.1em] uppercase border transition-colors hover:text-white"
-              style={{ borderColor: "var(--gold)", color: "var(--gold)" } as React.CSSProperties}
-            >
+            <Link href="/store/products" className="atelier-btn-gold inline-flex items-center gap-2 px-8 py-3 text-[13px] font-semibold tracking-[0.1em] uppercase border transition-all duration-300">
               View All Products <ArrowRight size={14} />
             </Link>
           </div>
@@ -172,14 +169,55 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
-            { icon: "🚚", title: "Free Shipping", desc: "Enjoy free shipping on all orders over $150, delivered to your door." },
-            { icon: "↩", title: "Easy to Return", desc: "Hassle-free returns within 30 days. Your satisfaction is guaranteed." },
-            { icon: "🔒", title: "Secure Payment", desc: "Shop safely with our encrypted, secure payment systems." },
-            { icon: "💬", title: "Customer Support", desc: "Our dedicated team is here to assist you every step of the way." },
+            {
+              icon: (
+                <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 40 C8 36 14 34 22 36 L38 38 C46 40 52 38 58 32" stroke="#bb976d" strokeWidth="2.5"/>
+                  <ellipse cx="18" cy="48" rx="7" ry="7" stroke="#bb976d" strokeWidth="2"/>
+                  <ellipse cx="46" cy="48" rx="7" ry="7" stroke="#bb976d" strokeWidth="2"/>
+                  <path d="M4 40 L8 20 L28 18 L36 30" stroke="#bb976d" strokeWidth="2"/>
+                  <path d="M28 18 L38 38" stroke="#bb976d" strokeWidth="1.5" strokeDasharray="2 2"/>
+                  <path d="M44 18 C50 16 56 18 58 24 L58 32" stroke="#bb976d" strokeWidth="2"/>
+                </svg>
+              ),
+              title: "Free Shipping", desc: "Enjoy free shipping on all orders over $150, delivered to your door."
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M32 8 C18 8 8 18 8 32 C8 46 18 56 32 56" stroke="#bb976d" strokeWidth="2.5"/>
+                  <path d="M32 8 C46 8 56 18 56 32 C56 40 52 47 46 51" stroke="#bb976d" strokeWidth="2.5"/>
+                  <path d="M32 56 L22 46 M32 56 L42 46" stroke="#bb976d" strokeWidth="2"/>
+                  <path d="M20 32 L28 40 L44 24" stroke="#bb976d" strokeWidth="2.5"/>
+                </svg>
+              ),
+              title: "Easy to Return", desc: "Hassle-free returns within 30 days. Your satisfaction is guaranteed."
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="14" y="28" width="36" height="26" rx="3" stroke="#bb976d" strokeWidth="2.5"/>
+                  <path d="M22 28 L22 20 C22 13 42 13 42 20 L42 28" stroke="#bb976d" strokeWidth="2.5"/>
+                  <circle cx="32" cy="40" r="4" stroke="#bb976d" strokeWidth="2"/>
+                  <path d="M32 44 L32 48" stroke="#bb976d" strokeWidth="2"/>
+                </svg>
+              ),
+              title: "Secure Payment", desc: "Shop safely with our encrypted, secure payment systems."
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 16 C12 12 16 10 20 10 L44 10 C48 10 52 12 52 16 L52 38 C52 42 48 44 44 44 L36 44 L28 54 L28 44 L20 44 C16 44 12 42 12 38 Z" stroke="#bb976d" strokeWidth="2.5"/>
+                  <path d="M22 26 L28 26 M34 26 L42 26" stroke="#bb976d" strokeWidth="2"/>
+                  <path d="M22 33 L36 33" stroke="#bb976d" strokeWidth="2"/>
+                </svg>
+              ),
+              title: "Customer Support", desc: "Our dedicated team is here to assist you every step of the way."
+            },
           ].map((item) => (
-            <div key={item.title} className="border border-border p-7 hover:border-gold hover:shadow-sm transition-all group">
-              <div className="text-3xl mb-4">{item.icon}</div>
-              <h3 className="text-[15px] font-semibold mb-2 tracking-wide group-hover:text-gold transition-colors" style={{ color: "var(--body-text)" }}>
+            <div key={item.title} className="border border-border p-7 hover:border-[var(--gold)] hover:shadow-sm transition-all duration-300 group">
+              <div className="mb-5 opacity-80 group-hover:opacity-100 transition-opacity">{item.icon}</div>
+              <h3 className="text-[15px] font-semibold mb-2 tracking-wide group-hover:text-[var(--gold)] transition-colors" style={{ color: "var(--body-text)" }}>
                 {item.title}
               </h3>
               <p className="text-[13px] text-muted-foreground leading-relaxed">{item.desc}</p>
