@@ -60,13 +60,13 @@ export default function HomePage() {
             {/* Hero image grid */}
             <div className="relative grid grid-cols-2 gap-3 h-[500px] lg:h-[640px] initial-hidden animate-fade-up delay-200">
               <div className="relative rounded-sm overflow-hidden row-span-2">
-                <Image src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=90" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
+                <Image src="https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceramic" fill className="object-cover" sizes="30vw" priority />
               </div>
               <div className="relative rounded-sm overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1603189343302-e603f7add05a?w=600&q=80" alt="Glass" fill className="object-cover" sizes="20vw" />
+                <Image src="https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Glass" fill className="object-cover" sizes="20vw" />
               </div>
               <div className="relative rounded-sm overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&q=80" alt="Wood" fill className="object-cover" sizes="20vw" />
+                <Image src="https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wood" fill className="object-cover" sizes="20vw" />
               </div>
               {/* floating card */}
               {hero && (
@@ -109,10 +109,10 @@ export default function HomePage() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { slug: "ceramic", label: "Ceramic", img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80", count: 24 },
-            { slug: "glass",   label: "Glass",   img: "https://images.unsplash.com/photo-1603189343302-e603f7add05a?w=600&q=80", count: 18 },
-            { slug: "wood",    label: "Wood",    img: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&q=80", count: 15 },
-            { slug: "textile", label: "Textile", img: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&q=80", count: 31 },
+            { slug: "ceramic", label: "Ceramic", img: "https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=600", count: 24 },
+            { slug: "glass",   label: "Glass",   img: "https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=600", count: 18 },
+            { slug: "wood",    label: "Wood",    img: "https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=600", count: 15 },
+            { slug: "textile", label: "Textile", img: "https://images.pexels.com/photos/6045028/pexels-photo-6045028.jpeg?auto=compress&cs=tinysrgb&w=600", count: 31 },
           ].map((cat) => (
             <Link key={cat.slug} href={`/store/products?category=${cat.slug}`}
               className="group relative aspect-[3/4] overflow-hidden bg-gray-100">
