@@ -78,7 +78,7 @@ const seedProducts: Product[] = [
       "Each piece is individually thrown on the wheel and fired at high temperature, resulting in a durable matte surface with subtle variations that make every vase unique.",
     price: 89,
     comparePrice: 120,
-    images: ["https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=800"],
+    images: ["https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=800"],
     category: seedCategories[0],
     tags: ["handmade", "home decor", "vase"],
     stock: 12,
@@ -96,7 +96,7 @@ const seedProducts: Product[] = [
     longDescription:
       "Made by master glassblowers using traditional techniques. The gradient from clear to rich amber is achieved through a carefully controlled cooling process.",
     price: 145,
-    images: ["https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=800"],
+    images: ["https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=800"],
     category: seedCategories[1],
     tags: ["glass", "bowl", "artisan"],
     stock: 6,
@@ -188,7 +188,7 @@ const seedProducts: Product[] = [
       "Spun by hand on a glassblower's mandrel. Ultra-thin wall that catches light beautifully. Cork stopper is natural and food-safe.",
     price: 112,
     comparePrice: 135,
-    images: ["https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=800"],
+    images: ["https://images.pexels.com/photos/6707628/pexels-photo-6707628.jpeg?auto=compress&cs=tinysrgb&w=800"],
     category: seedCategories[1],
     tags: ["glass", "carafe", "kitchen"],
     stock: 9,
@@ -223,7 +223,7 @@ const seedOrders: Order[] = [
     id: "ord-1",
     orderNumber: "ORD-2024-0001",
     items: [
-      { productId: "prod-1", productName: "Matte Ceramic Vase", sku: "CER-VAZ-001", price: 89, quantity: 2, image: "https://images.pexels.com/photos/2162938/pexels-photo-2162938.jpeg?auto=compress&cs=tinysrgb&w=200" },
+      { productId: "prod-1", productName: "Matte Ceramic Vase", sku: "CER-VAZ-001", price: 89, quantity: 2, image: "https://images.pexels.com/photos/6412579/pexels-photo-6412579.jpeg?auto=compress&cs=tinysrgb&w=200" },
       { productId: "prod-3", productName: "Walnut Serving Board", sku: "WOD-BRD-001", price: 195, quantity: 1, image: "https://images.pexels.com/photos/4207892/pexels-photo-4207892.jpeg?auto=compress&cs=tinysrgb&w=200" },
     ],
     customer: { name: "Emre Yılmaz", email: "emre@example.com", phone: "+90 532 000 0001", address: { line1: "Bağdat Cad. No:42", city: "İstanbul", state: "İstanbul", postalCode: "34710", country: "TR" } },
@@ -243,7 +243,7 @@ const seedOrders: Order[] = [
     id: "ord-2",
     orderNumber: "ORD-2024-0002",
     items: [
-      { productId: "prod-2", productName: "Blown Glass Bowl", sku: "GLS-BWL-001", price: 145, quantity: 1, image: "https://images.pexels.com/photos/1879096/pexels-photo-1879096.jpeg?auto=compress&cs=tinysrgb&w=200" },
+      { productId: "prod-2", productName: "Blown Glass Bowl", sku: "GLS-BWL-001", price: 145, quantity: 1, image: "https://images.pexels.com/photos/3785927/pexels-photo-3785927.jpeg?auto=compress&cs=tinysrgb&w=200" },
     ],
     customer: { name: "Ayşe Kaya", email: "ayse@example.com", address: { line1: "Nispetiye Cad. No:15", city: "İstanbul", state: "İstanbul", postalCode: "34340", country: "TR" } },
     status: "processing",
@@ -284,7 +284,7 @@ const seedOrders: Order[] = [
     id: "ord-4",
     orderNumber: "ORD-2024-0004",
     items: [
-      { productId: "prod-7", productName: "Spun Glass Carafe", sku: "GLS-CAR-001", price: 112, quantity: 1, image: "https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=200" },
+      { productId: "prod-7", productName: "Spun Glass Carafe", sku: "GLS-CAR-001", price: 112, quantity: 1, image: "https://images.pexels.com/photos/6707628/pexels-photo-6707628.jpeg?auto=compress&cs=tinysrgb&w=200" },
     ],
     customer: { name: "Selin Öztürk", email: "selin@example.com", address: { line1: "Alsancak Mah. 1382 Sok. No:3", city: "İzmir", state: "İzmir", postalCode: "35220", country: "TR" } },
     status: "pending",
