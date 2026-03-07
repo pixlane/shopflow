@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/store/product-card";
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);
   if (!product) return {};
   return { title: `${product.name} — Atelier`, description: product.description };
