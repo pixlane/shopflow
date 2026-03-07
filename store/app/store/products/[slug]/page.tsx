@@ -65,7 +65,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             </div>
             {product.images.slice(1, 3).length > 0 && (
               <div className="grid grid-cols-2 gap-3">
-                {product.images.slice(1, 3).map((img, i) => (
+                {product.images.slice(1, 3).map((img: string, i: number) => (
                   <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-secondary">
                     <Image src={img} alt={`${product.name} ${i + 2}`} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="30vw" />
                   </div>
