@@ -6,23 +6,17 @@ import { ProductForm } from "@/components/admin/product-form";
 
 export const dynamic = "force-dynamic";
 
-export default function EditProductPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const product = getProductById(params.id);
+export default async function EditProductPage({ params }: { params: { id: string } }) {
+  const [product, categories] = await Promise.all([
+    getProductById(params.id),
+    getCategories(),
+  ]);
   if (!product) notFound();
-
-  const categories = getCategories();
 
   return (
     <div className="max-w-5xl">
       <div className="flex items-center gap-3 mb-6">
-        <Link
-          href="/admin/products"
-          className="h-8 w-8 flex items-center justify-center rounded-md border border-border hover:bg-secondary transition-colors"
-        >
+        <Link href="/admin/products" className="h-8 w-8 flex items-center justify-center rounded-md border border-border hover:bg-secondary transition-colors">
           <ChevronLeft size={15} />
         </Link>
         <div>
@@ -30,7 +24,6 @@ export default function EditProductPage({
           <p className="text-xs text-muted-foreground mt-0.5">{product.name}</p>
         </div>
       </div>
-
       <ProductForm product={product} categories={categories} />
     </div>
   );
