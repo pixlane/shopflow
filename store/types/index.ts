@@ -16,12 +16,17 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
-  description?: string;
-  image?: string;
+  description?: string | null;
+  image?: string | null;
+  image_url?: string | null;
   productCount?: number;
-  sortOrder: number;
-  createdAt: string;
-  updatedAt: string;
+  sortOrder?: number | null;
+  sort_order?: number | null;
+  createdAt?: string;
+  created_at?: string;
+  updatedAt?: string;
+  updated_at?: string;
+  [key: string]: any;
 }
 
 // ─── Product ────────────────────────────────────────────────────────────────
