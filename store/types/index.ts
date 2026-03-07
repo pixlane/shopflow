@@ -1,196 +1,130 @@
-// ─── Media ────────────────────────────────────────────────────────────────────
-export interface MediaFile {
-  id: string;
-  url: string;
-  filename: string;
-  size: number;
-  mimeType: string;
-  width?: number;
-  height?: number;
-  alt?: string;
-  uploadedAt: string;
-}
+// ─── DB-aligned types (matches Supabase schema exactly) ─────────────────────
 
-// ─── Category ────────────────────────────────────────────────────────────────
 export interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  description?: string | null;
-  image?: string | null;
-  image_url?: string | null;
-  productCount?: number;
-  sortOrder?: number | null;
-  sort_order?: number | null;
-  createdAt?: string;
-  created_at?: string;
-  updatedAt?: string;
-  updated_at?: string;
-  [key: string]: any;
+  id: string
+  name: string
+  slug: string
+  description?: string | null
+  image_url?: string | null
+  created_at?: string | null
+  // UI aliases
+  productCount?: number
+  sortOrder?: number
 }
 
-// ─── Product ────────────────────────────────────────────────────────────────
 export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  longDescription: string;
-  price: number;
-  comparePrice?: number;
-  images: string[];
-  media?: MediaFile[];
-  category: Category;
-  tags: string[];
-  stock: number;
-  sku: string;
-  weight?: number;
-  dimensions?: { w: number; h: number; d: number };
-  featured: boolean;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
+  id: string
+  name: string
+  slug: string
+  description?: string | null
+  price: number
+  compare_price?: number | null
+  category_id?: string | null
+  images: string[]
+  stock: number
+  is_featured?: boolean | null
+  is_new?: boolean | null
+  badge?: string | null
+  tags?: string[] | null
+  weight_grams?: number | null
+  created_at?: string | null
+  updated_at?: string | null
+  // joined relation
+  categories?: Category | null
 }
 
-export interface ProductFormValues {
-  name: string;
-  slug: string;
-  description: string;
-  longDescription: string;
-  price: string;
-  comparePrice: string;
-  categoryId: string;
-  tags: string;
-  stock: string;
-  sku: string;
-  weight: string;
-  featured: boolean;
-  published: boolean;
-  images: string[];
-}
+export type ProductWithCategory = Product & { categories?: Category | null }
 
-// ─── Cart ────────────────────────────────────────────────────────────────────
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'processing'
+  | 'shipped'
+  | 'delivered'
+  | 'cancelled'
+  | 'refunded'
 
-export interface Cart {
-  items: CartItem[];
-  subtotal: number;
-  shipping: number;
-  total: number;
-}
-
-// ─── Order ───────────────────────────────────────────────────────────────────
 export interface Order {
-  id: string;
-  orderNumber: string;
-  items: OrderItem[];
-  customer: Customer;
-  status: OrderStatus;
-  paymentStatus: PaymentStatus;
-  fulfillmentStatus: FulfillmentStatus;
-  subtotal: number;
-  shipping: number;
-  discount: number;
-  tax: number;
-  total: number;
-  notes?: string;
-  trackingNumber?: string;
-  shippingCarrier?: string;
-  tags: string[];
-  createdAt: string;
-  updatedAt: string;
+  id: string
+  order_number?: string | null
+  user_id?: string | null
+  guest_email?: string | null
+  subtotal: number
+  shipping_cost: number
+  discount: number
+  total: number
+  shipping_address?: Record<string, string> | null
+  payment_method?: string | null
+  status: OrderStatus
+  created_at?: string | null
+  updated_at?: string | null
+  order_items?: OrderItem[]
 }
 
 export interface OrderItem {
-  productId: string;
-  productName: string;
-  sku: string;
-  price: number;
-  quantity: number;
-  image?: string;
+  id: string
+  order_id: string
+  product_id?: string | null
+  product_name: string
+  product_image?: string | null
+  price: number
+  quantity: number
+  subtotal: number
 }
 
-export type OrderStatus =
-  | "pending"
-  | "confirmed"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-  | "refunded";
-
-export type PaymentStatus =
-  | "unpaid"
-  | "paid"
-  | "partially_paid"
-  | "refunded"
-  | "voided";
-
-export type FulfillmentStatus =
-  | "unfulfilled"
-  | "partial"
-  | "fulfilled"
-  | "returned";
-
-export interface Customer {
-  name: string;
-  email: string;
-  phone?: string;
-  address: Address;
+export interface Profile {
+  id: string
+  email?: string | null
+  full_name?: string | null
+  role?: string | null
+  created_at?: string | null
+  updated_at?: string | null
 }
 
-export interface Address {
-  line1: string;
-  line2?: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+export interface DiscountCode {
+  id: string
+  code: string
+  type: 'percentage' | 'fixed'
+  value: number
+  min_order_amount?: number | null
+  max_uses?: number | null
+  used_count?: number | null
+  is_active?: boolean | null
+  expires_at?: string | null
+  created_at?: string | null
 }
 
-// ─── Admin ───────────────────────────────────────────────────────────────────
-export interface AdminUser {
-  id: string;
-  email: string;
-  name: string;
-  role: "admin" | "editor";
+export interface MediaFile {
+  id: string
+  url: string
+  filename: string
+  size: number
+  mimeType: string
+  width?: number
+  height?: number
+  alt?: string
+  uploadedAt?: string
 }
 
-export interface DashboardStats {
-  totalRevenue: number;
-  totalOrders: number;
-  totalProducts: number;
-  totalCustomers: number;
-  revenueChange: number;
-  ordersChange: number;
-}
-
-// ─── API ─────────────────────────────────────────────────────────────────────
 export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  error?: string;
+  data: T
+  message?: string
+  error?: string
 }
 
 export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
+  data: T[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
 }
 
 export interface UploadResult {
-  url: string;
-  filename: string;
-  size: number;
-  mimeType: string;
-  width?: number;
-  height?: number;
+  url: string
+  filename: string
+  size: number
+  mimeType: string
+  width?: number
+  height?: number
 }
-
-// Supabase joined type
-export type ProductWithCategory = Product & { categories?: Category | null }
