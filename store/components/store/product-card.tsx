@@ -11,12 +11,18 @@ import { useState } from "react";
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
 
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
     addItem(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
+  }
+
+  function handleWishlist(e: React.MouseEvent) {
+    e.preventDefault();
+    setWishlisted((prev) => !prev);
   }
 
   const discount = product.comparePrice
@@ -26,7 +32,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/store/products/${product.slug}`} className="group block">
       {/* Image */}
-      <div className="relative overflow-hidden bg-gray-50 aspect-square">
+      <div className="relative overflow-hidden bg-[#f5f0eb] aspect-square">
         <Image
           src={product.images[0]}
           alt={product.name}
@@ -74,32 +80,43 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
           <button
             onClick={handleAdd}
-            disabled={product.stock === 0 || added}
-            className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gold hover:text-white transition-colors disabled:opacity-50"
+            disabled={product.stock === 0}
+            className="h-9 w-9 rounded-full shadow-md flex items-center justify-center transition-all duration-200 disabled:opacity-50"
+            style={{ backgroundColor: added ? "var(--gold)" : "white" }}
             title="Add to cart"
           >
             <ShoppingBag size={14} style={{ color: added ? "white" : "var(--body-text)" }} />
           </button>
           <button
-            onClick={(e) => e.preventDefault()}
-            className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gold hover:text-white transition-colors"
-            title="Wishlist"
+            onClick={handleWishlist}
+            className="h-9 w-9 rounded-full shadow-md flex items-center justify-center transition-all duration-200"
+            style={{ backgroundColor: wishlisted ? "#e13939" : "white" }}
+            title={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <Heart size={14} style={{ color: "var(--body-text)" }} />
+            <Heart
+              size={14}
+              fill={wishlisted ? "white" : "none"}
+              style={{ color: wishlisted ? "white" : "var(--body-text)" }}
+            />
           </button>
-          <div className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gold hover:text-white transition-colors cursor-pointer" title="Quick view">
+          <Link
+            href={`/store/products/${product.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center transition-all duration-200 hover:bg-[var(--gold)]"
+            title="Quick view"
+          >
             <Eye size={14} style={{ color: "var(--body-text)" }} />
-          </div>
+          </Link>
         </div>
       </div>
 
       {/* Info */}
       <div className="mt-4 text-center space-y-1.5">
         <p className="text-[11px] tracking-[0.15em] uppercase text-muted-foreground">{product.category.name}</p>
-        <h3 className="text-[15px] font-medium leading-snug group-hover:text-gold transition-colors" style={{ color: "var(--body-text)" }}>
+        <h3 className="text-[15px] font-medium leading-snug group-hover:text-[var(--gold)] transition-colors" style={{ color: "var(--body-text)" }}>
           {product.name}
         </h3>
-        {/* Stars mock */}
+        {/* Stars */}
         <div className="flex items-center justify-center gap-0.5">
           {[1,2,3,4,5].map(i => (
             <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill={i <= 4 ? "#bb976d" : "none"} stroke="#bb976d" strokeWidth="2">
