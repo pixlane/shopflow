@@ -275,7 +275,7 @@ export default function HomePage() {
           <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
             Join our community of collectors and be the first to know about new arrivals, artisan stories and limited editions.
           </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Your email address"
