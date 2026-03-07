@@ -8,8 +8,7 @@ export async function GET(req: NextRequest) {
     category: searchParams.get("category") ?? undefined,
     featured: searchParams.has("featured")
       ? searchParams.get("featured") === "true"
-      : undefined,
-  });
+      : undefined });
 
   // client-side q filter (search)
   const q = searchParams.get("q")?.toLowerCase();
