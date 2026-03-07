@@ -3,8 +3,7 @@ import {
   ShoppingBag,
   Package,
   Users,
-  ArrowUpRight,
-} from "lucide-react";
+  ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { getAllOrders, getProducts } from "@/lib/store";
 import { formatPrice, formatDateTime, ORDER_STATUS_COLORS, ORDER_STATUS_LABELS } from "@/lib/utils";
@@ -13,35 +12,31 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const [orders, products] = await Promise.all([
-    getAllOrders(),
-    getProducts(),
+    await getAllOrders(),
+    await getProducts(),
   ]);
 
   const stats = [
     {
       label: "Total Revenue",
-      value: formatPrice(orders.reduce((s, o) => s + Number(o.total), 0)),
+      value: formatPrice(orders.reduce((s, o) => s + Number(Number(o.total)), 0)),
       change: +12.5,
-      icon: TrendingUp,
-    },
+      icon: TrendingUp },
     {
       label: "Orders",
       value: orders.length.toString(),
       change: +8.2,
-      icon: ShoppingBag,
-    },
+      icon: ShoppingBag },
     {
       label: "Products",
       value: products.length.toString(),
       change: 0,
-      icon: Package,
-    },
+      icon: Package },
     {
       label: "Customers",
       value: new Set(orders.map((o) => o.guest_email ?? o.user_id ?? "guest")).size.toString(),
       change: +5.1,
-      icon: Users,
-    },
+      icon: Users },
   ];
 
   const recent = orders.slice(0, 5);
@@ -118,7 +113,7 @@ export default async function DashboardPage() {
                         <td className="px-5 py-3.5 text-xs text-muted-foreground whitespace-nowrap">
                           {formatDateTime(order.created_at)}
                         </td>
-                        <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(Number(order.total))}</td>
+                        <td className="px-5 py-3.5 text-xs font-medium">{formatPrice(Number(Number(order.total)))}</td>
                         <td className="px-5 py-3.5">
                           <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${statusColors[order.status] ?? ""}`}>
                             {statusLabels[order.status] ?? order.status}
