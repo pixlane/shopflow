@@ -1,34 +1,33 @@
 import Link from "next/link";
 
-const navyBg = "hsl(220, 35%, 14%)";
-const gold = "hsl(38, 65%, 52%)";
-const textDim = "rgba(230,220,200,0.5)";
-const textFaint = "rgba(230,220,200,0.3)";
-
 export function StoreFooter() {
   return (
-    <footer style={{ backgroundColor: navyBg, color: "hsl(36, 28%, 90%)" }}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-10">
-        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-10 mb-14">
+    <footer style={{ backgroundColor: "#1e2330", color: "rgba(255,255,255,0.75)" }}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 mb-12">
 
           {/* Brand */}
           <div className="col-span-2 md:col-span-1 space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div style={{ borderColor: gold, color: gold }} className="h-8 w-8 rounded-sm border flex items-center justify-center">
-                <span className="font-display text-sm font-semibold">A</span>
-              </div>
-              <span className="font-display text-lg font-normal tracking-[0.08em]">Atelier</span>
+            <div className="flex items-center gap-2">
+              <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+                <path d="M4 24L14 4L24 24" stroke="#bb976d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M7 18H21" stroke="#bb976d" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span className="text-lg font-semibold tracking-[0.12em] uppercase text-white">Atelier</span>
             </div>
-            <p className="text-[13px] leading-relaxed max-w-[220px]" style={{ color: textDim }}>
+            <p className="text-[13px] leading-relaxed max-w-[220px]" style={{ color: "rgba(255,255,255,0.45)" }}>
               A curated collection of handcrafted objects made by independent artisans worldwide.
             </p>
-            <div className="flex items-center gap-3">
-              {["IG", "PT", "TW"].map((s) => (
-                <a key={s} href="#"
-                  className="h-8 w-8 rounded-sm flex items-center justify-center text-[11px] font-medium transition-colors hover:border-white/40 hover:text-white/70"
-                  style={{ border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.4)" }}
-                >
-                  {s}
+            <div className="flex gap-3">
+              {[
+                { label: "IG", icon: "◉" },
+                { label: "PT", icon: "◈" },
+                { label: "TW", icon: "◆" },
+              ].map((s) => (
+                <a key={s.label} href="#"
+                  className="h-9 w-9 border flex items-center justify-center text-[11px] transition-colors hover:border-gold hover:text-gold"
+                  style={{ borderColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.4)" }}>
+                  {s.icon}
                 </a>
               ))}
             </div>
@@ -36,8 +35,8 @@ export function StoreFooter() {
 
           {/* Shop */}
           <div className="space-y-4">
-            <h4 className="text-[10px] tracking-[0.2em] uppercase font-sans" style={{ color: gold }}>Shop</h4>
-            <ul className="space-y-3">
+            <h4 className="text-[11px] tracking-[0.25em] uppercase font-semibold" style={{ color: "#bb976d" }}>Shop</h4>
+            <ul className="space-y-2.5">
               {[
                 { label: "All Products", href: "/store/products" },
                 { label: "Ceramic", href: "/store/products?category=ceramic" },
@@ -46,7 +45,7 @@ export function StoreFooter() {
                 { label: "Textile", href: "/store/products?category=textile" },
               ].map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-[13px] transition-colors hover:text-white/90" style={{ color: textDim }}>
+                  <Link href={item.href} className="text-[13px] transition-colors hover:text-gold" style={{ color: "rgba(255,255,255,0.45)" }}>
                     {item.label}
                   </Link>
                 </li>
@@ -56,11 +55,11 @@ export function StoreFooter() {
 
           {/* Info */}
           <div className="space-y-4">
-            <h4 className="text-[10px] tracking-[0.2em] uppercase font-sans" style={{ color: gold }}>Info</h4>
-            <ul className="space-y-3">
+            <h4 className="text-[11px] tracking-[0.25em] uppercase font-semibold" style={{ color: "#bb976d" }}>Info</h4>
+            <ul className="space-y-2.5">
               {["About", "Sustainability", "Shipping", "Returns", "Contact"].map((item) => (
                 <li key={item}>
-                  <Link href="#" className="text-[13px] transition-colors hover:text-white/90" style={{ color: textDim }}>
+                  <Link href="#" className="text-[13px] transition-colors hover:text-gold" style={{ color: "rgba(255,255,255,0.45)" }}>
                     {item}
                   </Link>
                 </li>
@@ -70,35 +69,29 @@ export function StoreFooter() {
 
           {/* Newsletter */}
           <div className="col-span-2 md:col-span-1 space-y-4">
-            <h4 className="text-[10px] tracking-[0.2em] uppercase font-sans" style={{ color: gold }}>Newsletter</h4>
-            <p className="text-[13px]" style={{ color: textDim }}>New pieces, artisan stories and exclusives.</p>
-            <form className="flex flex-col gap-2">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="w-full h-9 px-3 rounded-sm text-sm focus:outline-none transition-colors placeholder:text-white/25"
-                style={{ border: "1px solid rgba(255,255,255,0.12)", color: "rgba(230,220,200,0.9)", backgroundColor: "rgba(255,255,255,0.05)" }}
-              />
-              <button
-                type="submit"
-                className="h-9 px-4 rounded-sm text-[12px] font-medium transition-opacity hover:opacity-80"
-                style={{ backgroundColor: gold, color: navyBg }}
-              >
-                Subscribe
+            <h4 className="text-[11px] tracking-[0.25em] uppercase font-semibold" style={{ color: "#bb976d" }}>Newsletter</h4>
+            <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+              New pieces, artisan stories and exclusives — first.
+            </p>
+            <div className="flex gap-0">
+              <input type="email" placeholder="Email address"
+                className="flex-1 h-10 px-3 text-[13px] bg-white/5 border focus:outline-none focus:border-gold transition-colors placeholder:text-white/20"
+                style={{ borderColor: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.8)" }} />
+              <button className="h-10 px-4 text-[11px] font-semibold tracking-[0.1em] uppercase shrink-0 transition-opacity hover:opacity-80"
+                style={{ backgroundColor: "#bb976d", color: "#1e2330" }}>
+                Go
               </button>
-            </form>
+            </div>
           </div>
         </div>
 
-        <div className="border-t mb-8" style={{ borderColor: "rgba(255,255,255,0.08)" }} />
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[11px]" style={{ color: textFaint }}>
+        <div className="border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+          <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.25)" }}>
             © {new Date().getFullYear()} Atelier. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             {["Privacy Policy", "Terms of Service", "Cookies"].map((item) => (
-              <Link key={item} href="#" className="text-[11px] transition-colors hover:text-white/60" style={{ color: textFaint }}>
+              <Link key={item} href="#" className="text-[11px] transition-colors hover:text-gold" style={{ color: "rgba(255,255,255,0.25)" }}>
                 {item}
               </Link>
             ))}
