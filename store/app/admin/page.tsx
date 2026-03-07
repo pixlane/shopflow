@@ -1,6 +1,9 @@
+import { redirect } from "next/navigation";
+import { getCategories } from "@/lib/store";
+import { CategoriesClient } from "@/components/admin/categories-client";
+
 export const dynamic = "force-dynamic";
 
-import { redirect } from "next/navigation";
 export default async function AdminCategoriesPage() {
   const categories = await getCategories();
   return <CategoriesClient initialCategories={categories} />;
