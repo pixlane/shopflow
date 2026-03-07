@@ -6,8 +6,7 @@ import type { Product } from "@/types";
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage({
-  searchParams,
-}: {
+  searchParams }: {
   searchParams: { category?: string; q?: string; sort?: string };
 }) {
   const allProducts = await getProducts({ });
@@ -15,7 +14,7 @@ export default async function ProductsPage({
 
   let filtered: Product[] = allProducts;
   if (searchParams.category) {
-    filtered = filtered.filter((p) => p.category.slug === searchParams.category);
+    filtered = filtered.filter((p) => (p.categories as any).slug === searchParams.category);
   }
   if (searchParams.q) {
     const q = searchParams.q.toLowerCase();
