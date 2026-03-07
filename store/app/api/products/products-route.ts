@@ -3,23 +3,34 @@ import { getProducts, createProduct } from "@/lib/store";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const products = getProducts({
-    categorySlug: searchParams.get("category") ?? undefined,
-    published: searchParams.has("published")
-      ? searchParams.get("published") === "true"
-      : undefined,
+
+  const products = await getProducts({
+    category: searchParams.get("category") ?? undefined,
     featured: searchParams.has("featured")
       ? searchParams.get("featured") === "true"
       : undefined,
-    q: searchParams.get("q") ?? undefined,
   });
-  return NextResponse.json({ data: products, total: products.length });
+
+  // client-side q filter (search)
+  const q = searchParams.get("q")?.toLowerCase();
+  const filtered = q
+    ? products.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.description ?? "").toLowerCase().includes(q)
+      )
+    : products;
+
+  return NextResponse.json({ data: filtered, total: filtered.length });
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const product = createProduct(body);
+    const product = await createProduct(body);
+    if (!product) {
+      return NextResponse.json({ error: "Failed to create product" }, { status: 400 });
+    }
     return NextResponse.json({ data: product }, { status: 201 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to create product";
