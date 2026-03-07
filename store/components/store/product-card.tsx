@@ -4,14 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShoppingBag, Heart, Eye } from "lucide-react";
 import { useCartStore } from "@/hooks/use-cart";
+import { useWishlistStore } from "@/hooks/use-wishlist";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types";
 import { useState } from "react";
 
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
+  const { toggle, hasItem } = useWishlistStore();
   const [added, setAdded] = useState(false);
-  const [wishlisted, setWishlisted] = useState(false);
+
+  const wishlisted = hasItem(product.id);
 
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -22,7 +25,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   function handleWishlist(e: React.MouseEvent) {
     e.preventDefault();
-    setWishlisted((prev) => !prev);
+    toggle(product);
   }
 
   const discount = product.comparePrice
@@ -102,8 +105,9 @@ export function ProductCard({ product }: { product: Product }) {
           <Link
             href={`/store/products/${product.slug}`}
             onClick={(e) => e.stopPropagation()}
-            className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center transition-all duration-200 hover:bg-[var(--gold)]"
-            title="Quick view"
+            className="h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center transition-all duration-200"
+            style={{}}
+            title="View product"
           >
             <Eye size={14} style={{ color: "var(--body-text)" }} />
           </Link>
@@ -116,7 +120,6 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="text-[15px] font-medium leading-snug group-hover:text-[var(--gold)] transition-colors" style={{ color: "var(--body-text)" }}>
           {product.name}
         </h3>
-        {/* Stars */}
         <div className="flex items-center justify-center gap-0.5">
           {[1,2,3,4,5].map(i => (
             <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill={i <= 4 ? "#bb976d" : "none"} stroke="#bb976d" strokeWidth="2">
