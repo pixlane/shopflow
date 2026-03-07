@@ -1,16 +1,67 @@
 "use server"
 
 import { supabaseAdmin } from './supabase-admin'
-import type { Category, Order, ProductWithCategory } from '@/types'
 
-// ── PRODUCTS ──────────────────────────────────────────
+// ── Local DB row types (matches actual Supabase schema) ──────────────────────
+export type DbCategory = {
+  id: string
+  name: string
+  slug: string
+  description?: string | null
+  image_url?: string | null
+  sort_order?: number | null
+  created_at?: string
+  updated_at?: string
+  productCount?: number
+}
 
+export type DbProduct = {
+  id: string
+  name: string
+  slug: string
+  description?: string | null
+  price: number
+  compare_price?: number | null
+  category_id?: string | null
+  images: string[]
+  stock: number
+  is_featured?: boolean
+  is_new?: boolean
+  badge?: string | null
+  tags?: string[]
+  sku?: string | null
+  weight?: number | null
+  created_at?: string
+  updated_at?: string
+}
+
+export type DbProductWithCategory = DbProduct & { categories?: DbCategory | null }
+
+export type DbOrderStatus = 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+
+export type DbOrder = {
+  id: string
+  order_number?: string
+  user_id?: string | null
+  guest_email?: string | null
+  subtotal: number
+  shipping_cost: number
+  discount: number
+  total: number
+  shipping_address?: Record<string, string>
+  payment_method?: string | null
+  status: DbOrderStatus
+  created_at?: string
+  updated_at?: string
+}
+
+// ── PRODUCTS ──────────────────────────────────────────────────────────────────
 export async function getProducts(options?: {
   category?: string
   featured?: boolean
   isNew?: boolean
   limit?: number
-}): Promise<ProductWithCategory[]> {
+}): Promise<DbProductWithCategory[]> {
   let query = supabaseAdmin
     .from('products')
     .select('*, categories(*)')
@@ -24,57 +75,53 @@ export async function getProducts(options?: {
   const { data, error } = await query
   if (error) { console.error('getProducts error:', error); return [] }
 
-  let results = (data ?? []) as ProductWithCategory[]
+  let results = (data ?? []) as unknown as DbProductWithCategory[]
 
-  // Filter by category slug after fetch
   if (options?.category) {
-    results = results.filter((p) => (p.categories as any)?.slug === options.category)
+    results = results.filter((p) => p.categories?.slug === options.category)
   }
-
   return results
 }
 
-export async function getProductBySlug(slug: string): Promise<ProductWithCategory | null> {
+export async function getProductBySlug(slug: string): Promise<DbProductWithCategory | null> {
   const { data, error } = await supabaseAdmin
     .from('products')
     .select('*, categories(*)')
     .eq('slug', slug)
     .single()
   if (error) return null
-  return data as ProductWithCategory
+  return data as unknown as DbProductWithCategory
 }
 
-export async function getFeaturedProducts(limit = 8): Promise<ProductWithCategory[]> {
+export async function getFeaturedProducts(limit = 8): Promise<DbProductWithCategory[]> {
   return getProducts({ featured: true, limit })
 }
 
-export async function getNewArrivals(limit = 4): Promise<ProductWithCategory[]> {
+export async function getNewArrivals(limit = 4): Promise<DbProductWithCategory[]> {
   return getProducts({ isNew: true, limit })
 }
 
-export async function searchProducts(q: string): Promise<ProductWithCategory[]> {
+export async function searchProducts(q: string): Promise<DbProductWithCategory[]> {
   const { data, error } = await supabaseAdmin
     .from('products')
     .select('*, categories(*)')
     .or(`name.ilike.%${q}%,description.ilike.%${q}%`)
     .limit(20)
   if (error) return []
-  return (data ?? []) as ProductWithCategory[]
+  return (data ?? []) as unknown as DbProductWithCategory[]
+}
+
+export async function getProductById(id: string): Promise<DbProductWithCategory | null> {
+  const { data, error } = await supabaseAdmin
+    .from('products').select('*, categories(*)').eq('id', id).single()
+  if (error) return null
+  return data as unknown as DbProductWithCategory
 }
 
 export async function createProduct(data: {
-  name: string
-  slug?: string
-  description?: string
-  price: number
-  compare_price?: number
-  category_id?: string
-  images?: string[]
-  stock?: number
-  is_featured?: boolean
-  is_new?: boolean
-  badge?: string
-  tags?: string[]
+  name: string; slug?: string; description?: string; price: number
+  compare_price?: number; category_id?: string; images?: string[]
+  stock?: number; is_featured?: boolean; is_new?: boolean; badge?: string; tags?: string[]
 }) {
   if (!data.slug) {
     data.slug = data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
@@ -101,20 +148,26 @@ export async function deleteProduct(id: string) {
   return !error
 }
 
-// ── CATEGORIES ───────────────────────────────────────
-
-export async function getCategories(): Promise<Category[]> {
+// ── CATEGORIES ────────────────────────────────────────────────────────────────
+export async function getCategories(): Promise<DbCategory[]> {
   const { data, error } = await supabaseAdmin
     .from('categories').select('*').order('name')
   if (error) return []
-  return data ?? []
+  return (data ?? []) as unknown as DbCategory[]
 }
 
-export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+export async function getCategoryBySlug(slug: string): Promise<DbCategory | null> {
   const { data, error } = await supabaseAdmin
     .from('categories').select('*').eq('slug', slug).single()
   if (error) return null
-  return data
+  return data as unknown as DbCategory
+}
+
+export async function getCategoryById(id: string): Promise<DbCategory | null> {
+  const { data, error } = await supabaseAdmin
+    .from('categories').select('*').eq('id', id).single()
+  if (error) return null
+  return data as unknown as DbCategory
 }
 
 export async function createCategory(data: {
@@ -140,19 +193,13 @@ export async function deleteCategory(id: string) {
   return !error
 }
 
-// ── ORDERS ────────────────────────────────────────────
-
+// ── ORDERS ────────────────────────────────────────────────────────────────────
 export async function createOrder(orderData: {
-  userId?: string
-  guestEmail?: string
+  userId?: string; guestEmail?: string
   items: { productId: string; name: string; image?: string; price: number; quantity: number }[]
-  subtotal: number
-  shippingCost: number
-  discount: number
-  total: number
-  shippingAddress: Record<string, string>
-  paymentMethod?: string
-}): Promise<Order | null> {
+  subtotal: number; shippingCost: number; discount: number; total: number
+  shippingAddress: Record<string, string>; paymentMethod?: string
+}): Promise<DbOrder | null> {
   const { data: order, error: orderError } = await supabaseAdmin
     .from('orders')
     .insert({
@@ -169,10 +216,7 @@ export async function createOrder(orderData: {
     .select()
     .single()
 
-  if (orderError || !order) {
-    console.error('createOrder error:', orderError)
-    return null
-  }
+  if (orderError || !order) { console.error('createOrder error:', orderError); return null }
 
   const items = orderData.items.map((item) => ({
     order_id: order.id,
@@ -194,12 +238,19 @@ export async function createOrder(orderData: {
     })
   }
 
-  return order
+  return order as unknown as DbOrder
 }
 
 export async function getOrderByNumber(orderNumber: string) {
   const { data, error } = await supabaseAdmin
     .from('orders').select('*, order_items(*)').eq('order_number', orderNumber).single()
+  if (error) return null
+  return data
+}
+
+export async function getOrderById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from('orders').select('*, order_items(*)').eq('id', id).single()
   if (error) return null
   return data
 }
@@ -221,19 +272,17 @@ export async function getAllOrders() {
   return data ?? []
 }
 
-// Alias for backwards compatibility
 export async function getOrders() {
   return getAllOrders()
 }
 
-export async function updateOrderStatus(orderId: string, status: Order['status']) {
+export async function updateOrderStatus(orderId: string, status: DbOrderStatus) {
   const { error } = await supabaseAdmin
     .from('orders').update({ status }).eq('id', orderId)
   return !error
 }
 
-// ── CUSTOMERS ─────────────────────────────────────────
-
+// ── CUSTOMERS ─────────────────────────────────────────────────────────────────
 export async function getCustomers() {
   const { data, error } = await supabaseAdmin
     .from('profiles').select('*').eq('role', 'customer')
@@ -249,20 +298,17 @@ export async function getCustomerById(id: string) {
   return data
 }
 
-// ── DASHBOARD ─────────────────────────────────────────
-
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
 export async function getDashboardStats() {
   const [ordersRes, productsRes, customersRes] = await Promise.all([
     supabaseAdmin.from('orders').select('total, status, created_at'),
     supabaseAdmin.from('products').select('id, stock'),
     supabaseAdmin.from('profiles').select('id').eq('role', 'customer'),
   ])
-
   const orders = ordersRes.data ?? []
   const revenue = orders
     .filter((o) => o.status !== 'cancelled' && o.status !== 'refunded')
     .reduce((sum, o) => sum + Number(o.total), 0)
-
   return {
     totalOrders: orders.length,
     totalRevenue: revenue,
@@ -272,13 +318,11 @@ export async function getDashboardStats() {
   }
 }
 
-// ── DISCOUNT CODES ────────────────────────────────────
-
+// ── DISCOUNT CODES ────────────────────────────────────────────────────────────
 export async function validateDiscountCode(code: string, orderAmount: number) {
   const { data, error } = await supabaseAdmin
     .from('discount_codes').select('*')
     .eq('code', code.toUpperCase()).eq('is_active', true).single()
-
   if (error || !data) return { valid: false, message: 'Invalid discount code' }
   if (data.expires_at && new Date(data.expires_at) < new Date())
     return { valid: false, message: 'Discount code has expired' }
@@ -286,11 +330,9 @@ export async function validateDiscountCode(code: string, orderAmount: number) {
     return { valid: false, message: 'Discount code has reached its usage limit' }
   if (orderAmount < data.min_order_amount)
     return { valid: false, message: `Minimum order amount is $${data.min_order_amount}` }
-
   const discountAmount = data.type === 'percentage'
     ? (orderAmount * data.value) / 100
     : data.value
-
   return { valid: true, code: data, discountAmount: Math.min(discountAmount, orderAmount) }
 }
 
@@ -318,13 +360,11 @@ export async function toggleDiscountCode(id: string, isActive: boolean) {
   return !error
 }
 
-// ── MEDIA (Supabase Storage) ───────────────────────────
-
+// ── MEDIA ─────────────────────────────────────────────────────────────────────
 export async function getMediaFiles() {
   const { data, error } = await supabaseAdmin.storage
     .from('media').list('products', { sortBy: { column: 'created_at', order: 'desc' } })
   if (error) return []
-
   return (data ?? []).map((file) => {
     const { data: { publicUrl } } = supabaseAdmin.storage
       .from('media').getPublicUrl(`products/${file.name}`)
@@ -342,26 +382,4 @@ export async function getMediaFiles() {
 export async function deleteMedia(path: string) {
   const { error } = await supabaseAdmin.storage.from('media').remove([path])
   return !error
-}
-// ── APPEND TO BOTTOM OF store.ts ──────────────────────
-
-export async function getProductById(id: string) {
-  const { data, error } = await supabaseAdmin
-    .from('products').select('*, categories(*)').eq('id', id).single()
-  if (error) return null
-  return data as ProductWithCategory
-}
-
-export async function getOrderById(id: string) {
-  const { data, error } = await supabaseAdmin
-    .from('orders').select('*, order_items(*)').eq('id', id).single()
-  if (error) return null
-  return data
-}
-
-export async function getCategoryById(id: string) {
-  const { data, error } = await supabaseAdmin
-    .from('categories').select('*').eq('id', id).single()
-  if (error) return null
-  return data
 }
