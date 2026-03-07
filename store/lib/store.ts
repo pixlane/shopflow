@@ -343,3 +343,25 @@ export async function deleteMedia(path: string) {
   const { error } = await supabaseAdmin.storage.from('media').remove([path])
   return !error
 }
+// ── APPEND TO BOTTOM OF store.ts ──────────────────────
+
+export async function getProductById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from('products').select('*, categories(*)').eq('id', id).single()
+  if (error) return null
+  return data as ProductWithCategory
+}
+
+export async function getOrderById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from('orders').select('*, order_items(*)').eq('id', id).single()
+  if (error) return null
+  return data
+}
+
+export async function getCategoryById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from('categories').select('*').eq('id', id).single()
+  if (error) return null
+  return data
+}
