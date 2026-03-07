@@ -19,7 +19,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const related = await getProducts({ })
+  const allProds = await getProducts();
+  const related = allProds
     .filter((p) => p.id !== product.id && (p.categories as any)?.id === (product.categories as any)?.id)
     .slice(0, 4);
 
