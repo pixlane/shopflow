@@ -19,12 +19,12 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const related = await getProducts({ published: true })
+  const related = await getProducts({ })
     .filter((p) => p.id !== product.id && p.category.id === product.category.id)
     .slice(0, 4);
 
-  const discount = product.comparePrice
-    ? Math.round((1 - product.price / product.comparePrice) * 100)
+  const discount = product.compare_price
+    ? Math.round((1 - product.price / product.compare_price) * 100)
     : null;
 
   return (
@@ -99,8 +99,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             {/* Price */}
             <div className="flex items-baseline gap-3">
               <span className="font-display text-2xl font-medium">{formatPrice(product.price)}</span>
-              {product.comparePrice && (
-                <span className="text-base text-muted-foreground line-through">{formatPrice(product.comparePrice)}</span>
+              {product.compare_price && (
+                <span className="text-base text-muted-foreground line-through">{formatPrice(product.compare_price)}</span>
               )}
               {discount && (
                 <span className="text-sm font-medium text-amber-600">Save {discount}%</span>
