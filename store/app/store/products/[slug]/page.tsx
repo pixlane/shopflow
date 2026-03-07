@@ -20,7 +20,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   if (!product) notFound();
 
   const related = await getProducts({ })
-    .filter((p) => p.id !== product.id && p.category.id === product.category.id)
+    .filter((p) => p.id !== product.id && (p.categories as any)?.id === (product.categories as any)?.id)
     .slice(0, 4);
 
   const discount = product.compare_price
@@ -36,7 +36,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           <ChevronRight size={11} />
           <Link href="/store/products" className="hover:text-foreground transition-colors">Shop</Link>
           <ChevronRight size={11} />
-          <Link href={`/store/products?category=${product.category.slug}`} className="hover:text-foreground transition-colors">{product.category.name}</Link>
+          <Link href={`/store/products?category=${(product.categories as any).slug}`} className="hover:text-foreground transition-colors">{(product.categories as any)?.name}</Link>
           <ChevronRight size={11} />
           <span className="text-foreground">{product.name}</span>
         </div>
@@ -78,10 +78,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             {/* Category + name */}
             <div>
               <Link
-                href={`/store/products?category=${product.category.slug}`}
+                href={`/store/products?category=${(product.categories as any).slug}`}
                 className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-colors font-sans"
               >
-                {product.category.name}
+                {(product.categories as any)?.name}
               </Link>
               <h1 className="font-display text-3xl lg:text-4xl font-normal mt-2 leading-tight">{product.name}</h1>
 
@@ -176,7 +176,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           <section className="mt-24 pt-12 border-t border-border">
             <div className="mb-8">
               <p className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2 font-sans">More from</p>
-              <h2 className="font-display text-2xl lg:text-3xl font-normal">{product.category.name}</h2>
+              <h2 className="font-display text-2xl lg:text-3xl font-normal">{(product.categories as any)?.name}</h2>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {related.map((p) => <ProductCard key={p.id} product={p} />)}
