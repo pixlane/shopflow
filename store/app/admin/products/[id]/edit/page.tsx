@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic";
 
 export default async function EditProductPage({ params }: { params: { id: string } }) {
   const [product, categories] = await Promise.all([
-    getProductById(params.id),
-    getCategories(),
+    await getProductById(params.id),
+    await getCategories(),
   ]);
   if (!product) notFound();
 
