@@ -1,25 +1,80 @@
-import type { Metadata } from "next";
-import { Josefin_Sans } from "next/font/google";
-import "./globals.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-const josefin = Josefin_Sans({
-  subsets: ["latin"],
-  variable: "--font-josefin",
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
-});
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 200 13% 27%;
+    --card: 0 0% 100%;
+    --card-foreground: 200 13% 27%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 13% 27%;
+    --primary: 33 37% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 22% 96%;
+    --secondary-foreground: 200 13% 27%;
+    --muted: 36 15% 94%;
+    --muted-foreground: 200 8% 50%;
+    --accent: 33 37% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 36 14% 90%;
+    --input: 36 14% 90%;
+    --ring: 33 37% 58%;
+    --radius: 0rem;
 
-export const metadata: Metadata = {
-  title: { default: "Atelier — Handcrafted Objects", template: "%s | Atelier" },
-  description: "A curated collection of handcrafted ceramics, glass, wood, and textiles.",
-};
+    /* Brand */
+    --gold: #bb976d;
+    --gold-light: #d4b08a;
+    --red-sale: #e13939;
+    --body-text: rgb(60, 71, 78);
+    --nav-height: 70px;
+  }
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning className={josefin.variable}>
-      <body className="min-h-screen bg-background antialiased">
-        {children}
-      </body>
-    </html>
-  );
+@layer base {
+  * { @apply border-border; }
+  body {
+    font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
+    color: var(--body-text);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+  h1,h2,h3,h4,h5,h6 {
+    font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
+    color: var(--body-text);
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer utilities {
+  .text-gold { color: var(--gold); }
+  .bg-gold { background-color: var(--gold); }
+  .border-gold { border-color: var(--gold); }
+  .text-sale { color: var(--red-sale); }
+  .bg-sale { background-color: var(--red-sale); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.3s; }
+  .initial-hidden { opacity: 0; }
+
+  /* Section header pattern (icon + title + subtitle) */
+  .section-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    stroke: var(--gold);
+    fill: none;
+  }
 }
