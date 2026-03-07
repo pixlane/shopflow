@@ -9,5 +9,5 @@
 import { getProducts, getCategories } from "./store";
 
 export { getProducts, getCategories };
-export const products = getProducts({ published: true });
-export const categories = getCategories();
+export const products = await getProducts({ });
+export const categories = await getCategories();
