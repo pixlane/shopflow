@@ -19,8 +19,7 @@ import type {
   PaymentBuyer,
   PaymentAddress,
   PaymentBasketItem,
-  Money,
-} from "@/lib/payment";
+  Money } from "@/lib/payment";
 import { getOrderById } from "@/lib/store";
 
 export async function POST(req: NextRequest) {
@@ -73,17 +72,15 @@ export async function POST(req: NextRequest) {
       city: customer.address?.city ?? "Istanbul",
       country: customer.address?.country ?? "TR",
       address: customer.address?.line1 ?? "",
-      zipCode: customer.address?.postalCode,
-    };
+      zipCode: customer.address?.postalCode };
 
     const basketItems: PaymentBasketItem[] = cartItems.map((item) => ({
       id: item.product.id,
       name: item.product.name,
-      category: item.product.category?.name ?? "General",
+      category: item.(product.categories as any)?.name ?? "General",
       price: Math.round(item.product.price * 100), // cents/kuruş
       quantity: item.quantity,
-      itemType: "PHYSICAL",
-    }));
+      itemType: "PHYSICAL" }));
 
     const subtotal = cartItems.reduce(
       (s, i) => s + Math.round(i.product.price * 100) * i.quantity,
@@ -111,8 +108,7 @@ export async function POST(req: NextRequest) {
       callbackUrl: callbackUrl ?? `${origin}/api/payment/callback?provider=${config.providerId}`,
       cancelUrl: cancelUrl ?? `${origin}/store/cart`,
       idempotencyKey: `${orderId}-${getActiveProviderId()}`,
-      metadata: { orderId, source: "storefront" },
-    };
+      metadata: { orderId, source: "storefront" } };
 
     const session = await adapter.initializePayment(paymentRequest, config);
 
