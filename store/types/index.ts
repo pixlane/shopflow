@@ -191,3 +191,6 @@ export interface UploadResult {
   width?: number;
   height?: number;
 }
+
+// Supabase joined type
+export type ProductWithCategory = Product & { categories?: Category | null }
