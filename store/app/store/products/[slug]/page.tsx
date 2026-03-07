@@ -10,16 +10,16 @@ import { ProductCard } from "@/components/store/product-card";
 export const dynamic = "force-dynamic";
 
 export function generateMetadata({ params }: { params: { slug: string } }) {
-  const product = getProductBySlug(params.slug);
+  const product = await getProductBySlug(params.slug);
   if (!product) return {};
   return { title: `${product.name} — Atelier`, description: product.description };
 }
 
-export default function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = getProductBySlug(params.slug);
+export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+  const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const related = getProducts({ published: true })
+  const related = await getProducts({ published: true })
     .filter((p) => p.id !== product.id && p.category.id === product.category.id)
     .slice(0, 4);
 
