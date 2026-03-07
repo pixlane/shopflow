@@ -37,8 +37,7 @@ export async function POST(req: NextRequest) {
       .from("media")
       .upload(path, buffer, {
         contentType: file.type,
-        upsert: false,
-      });
+        upsert: false });
 
     if (uploadError) {
       console.error("Supabase storage upload error:", uploadError);
@@ -57,9 +56,7 @@ export async function POST(req: NextRequest) {
           filename: file.name,
           size: file.size,
           mimeType: file.type,
-          id: path,
-        },
-      },
+          id: path } },
       { status: 201 }
     );
   } catch (err: unknown) {
