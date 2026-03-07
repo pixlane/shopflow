@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag, Heart, Search, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/hooks/use-cart";
+import { useWishlistStore } from "@/hooks/use-wishlist";
 
 const NAV = [
   { label: "Home", href: "/store" },
@@ -18,6 +19,7 @@ export function StoreHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const itemCount = useCartStore((s) => s.itemCount());
+  const wishlistCount = useWishlistStore((s) => s.itemCount());
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 10);
@@ -58,9 +60,14 @@ export function StoreHeader() {
             <button className="h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-gold transition-colors">
               <Search size={18} />
             </button>
-            <button className="h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-gold transition-colors">
+            <Link href="/store/wishlist" className="relative h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-gold transition-colors">
               <Heart size={18} />
-            </button>
+              {wishlistCount > 0 && (
+                <span className="absolute top-1 right-1 h-4 w-4 flex items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: "var(--gold)" }}>
+                  {wishlistCount > 9 ? "9+" : wishlistCount}
+                </span>
+              )}
+            </Link>
             <Link href="/store/cart" className="relative h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-gold transition-colors">
               <ShoppingBag size={18} />
               {itemCount > 0 && (
