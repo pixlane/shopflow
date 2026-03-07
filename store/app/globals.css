@@ -78,3 +78,36 @@
     fill: none;
   }
 }
+
+/* ── BUTTON HOVER EFFECTS ── */
+.atelier-btn-gold {
+  border-color: var(--gold);
+  color: var(--gold);
+  background-color: transparent;
+}
+.atelier-btn-gold:hover {
+  background-color: var(--gold);
+  color: white;
+  border-color: var(--gold);
+  letter-spacing: 0.12em;
+}
+
+.atelier-btn-outline {
+  border-color: var(--border);
+  color: var(--body-text);
+  background-color: transparent;
+}
+.atelier-btn-outline:hover {
+  background-color: var(--gold);
+  color: white;
+  border-color: var(--gold);
+}
+
+/* ── PRODUCT CARD ACTION ICON HOVER ── */
+.product-action-btn:hover {
+  background-color: var(--gold) !important;
+}
+.product-action-btn:hover svg {
+  color: white !important;
+  stroke: white !important;
+}
