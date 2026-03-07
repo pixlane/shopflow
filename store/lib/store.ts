@@ -1,6 +1,7 @@
 "use server"
 
 import { supabaseAdmin } from './supabase-admin'
+import type { Category, Order, ProductWithCategory } from '@/types'
 
 // ── PRODUCTS ──────────────────────────────────────────
 
