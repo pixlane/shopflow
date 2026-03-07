@@ -1,13 +1,12 @@
 "use client"
 
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/supabase'
 
-let client: ReturnType<typeof createClient<Database>> | null = null
+let client: ReturnType<typeof createClient> | null = null
 
 export function getSupabaseClient() {
   if (!client) {
-    client = createClient<Database>(
+    client = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
