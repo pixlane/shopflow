@@ -48,7 +48,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
           name: newRow.name,
           slug: newRow.slug || slugify(newRow.name),
           description: newRow.description,
-          sortOrder: parseInt(newRow.sortOrder) || 99,
+          sortOrder: parseInt(newRow.sort_order) || 99,
         }),
       });
       const data = await res.json();
@@ -75,7 +75,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
           name: editRow.name,
           slug: editRow.slug || slugify(editRow.name),
           description: editRow.description,
-          sortOrder: parseInt(editRow.sortOrder) || 99,
+          sortOrder: parseInt(editRow.sort_order) || 99,
         }),
       });
       const data = await res.json();
@@ -200,7 +200,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                     <td className="px-4 py-2.5">
                       <input
                         type="number"
-                        value={newRow.sortOrder}
+                        value={newRow.sort_order}
                         onChange={(e) =>
                           setNewRow((r) => r ? { ...r, sortOrder: e.target.value } : r)
                         }
@@ -278,7 +278,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                           <td className="px-4 py-2.5">
                             <input
                               type="number"
-                              value={editRow.sortOrder}
+                              value={editRow.sort_order}
                               onChange={(e) =>
                                 setEditRow((r) => r ? { ...r, sortOrder: e.target.value } : r)
                               }
@@ -319,7 +319,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                             </div>
                           </td>
                           <td className="px-4 py-3 text-xs text-muted-foreground">
-                            {cat.sortOrder}
+                            {cat.sort_order}
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-1">
@@ -330,7 +330,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                                     name: cat.name,
                                     slug: cat.slug,
                                     description: cat.description ?? "",
-                                    sortOrder: String(cat.sortOrder),
+                                    sortOrder: String(cat.sort_order),
                                   })
                                 }
                                 className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
