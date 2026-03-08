@@ -127,10 +127,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             <AddToCartButton product={product} />
 
             {/* Specs */}
-            {((product as any).sku ?? "" || product.weight_grams) && (
+            {(!!(product as any).sku || !!product.weight_grams) && (
               <div className="border-t border-border pt-6 space-y-2.5">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-sans mb-3">Details</p>
-                {(product as any).sku ?? "" && (
+                {!!(product as any).sku && (
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">SKU</span>
                     <span className="font-medium font-mono">{(product as any).sku ?? ""}</span>
@@ -145,7 +145,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                 {product.tags?.length > 0 && (
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Tags</span>
-                    <span>{product.tags.join(", ")}</span>
+                    <span>{(product.tags ?? []).join(", ")}</span>
                   </div>
                 )}
               </div>
