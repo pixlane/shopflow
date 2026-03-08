@@ -5,10 +5,10 @@ import { Save, Loader2, ExternalLink } from "lucide-react";
 import { ImageUploader } from "./image-uploader";
 import { useToast } from "./toast";
 import { slugify } from "@/lib/utils";
-import type { Product, Category } from "@/types";
+import type { Product, ProductWithCategory, Category } from "@/types";
 
 interface ProductFormProps {
-  product?: Product;
+  product?: ProductWithCategory;
   categories: Category[];
 }
 
