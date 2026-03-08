@@ -77,7 +77,7 @@ export default function CartPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-0.5">
-                      {item.product.category.name}
+                      {item.product.categories?.name ?? ""}
                     </p>
                     <Link
                       href={`/store/products/${item.product.slug}`}
@@ -86,7 +86,7 @@ export default function CartPage() {
                       {item.product.name}
                     </Link>
                     <p className="text-[11px] text-muted-foreground mt-0.5 font-mono">
-                      {item.product.sku}
+                      {item.(product as any).sku ?? ""}
                     </p>
                   </div>
                   <p className="text-sm font-medium whitespace-nowrap">
