@@ -28,8 +28,8 @@ export function ProductCard({ product }: { product: Product }) {
     toggle(product);
   }
 
-  const discount = product.comparePrice
-    ? Math.round((1 - product.price / product.comparePrice) * 100)
+  const discount = product.compare_price
+    ? Math.round((1 - product.price / product.compare_price) * 100)
     : null;
 
   return (
@@ -65,7 +65,7 @@ export function ProductCard({ product }: { product: Product }) {
               Sold Out
             </span>
           )}
-          {product.featured && product.stock > 0 && !discount && (
+          {product.is_featured && product.stock > 0 && !discount && (
             <span className="px-2.5 py-1 text-[11px] font-semibold text-white tracking-wide rounded-full" style={{ backgroundColor: "#2d7a4f" }}>
               Hot Sale
             </span>
@@ -75,7 +75,7 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Top-right category tag */}
         <div className="absolute top-3 right-3">
           <span className="px-2.5 py-1 text-[11px] font-medium tracking-wide bg-white/90 rounded-full" style={{ color: "var(--body-text)" }}>
-            {product.category.name}
+            {product.categories?.name ?? ""}
           </span>
         </div>
 
@@ -116,7 +116,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       {/* Info */}
       <div className="mt-4 text-center space-y-1.5">
-        <p className="text-[11px] tracking-[0.15em] uppercase text-muted-foreground">{product.category.name}</p>
+        <p className="text-[11px] tracking-[0.15em] uppercase text-muted-foreground">{product.categories?.name ?? ""}</p>
         <h3 className="text-[15px] font-medium leading-snug group-hover:text-[var(--gold)] transition-colors" style={{ color: "var(--body-text)" }}>
           {product.name}
         </h3>
@@ -130,8 +130,8 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="flex items-center justify-center gap-3 pt-0.5">
           <span className="text-base font-semibold" style={{ color: "var(--gold)" }}>{formatPrice(product.price)}</span>
-          {product.comparePrice && (
-            <span className="text-sm text-muted-foreground line-through">{formatPrice(product.comparePrice)}</span>
+          {product.compare_price && (
+            <span className="text-sm text-muted-foreground line-through">{formatPrice(product.compare_price)}</span>
           )}
         </div>
       </div>
