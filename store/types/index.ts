@@ -9,6 +9,15 @@ export type {
 } from '@/lib/store'
 
 // Extra UI-only types
+export interface CartItem {
+  product: import('@/lib/store').DbProductWithCategory
+  quantity: number
+}
+
+export interface WishlistItem {
+  product: import('@/lib/store').DbProductWithCategory
+}
+
 export interface MediaFile {
   id: string
   url: string
