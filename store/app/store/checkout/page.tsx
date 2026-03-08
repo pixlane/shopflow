@@ -230,7 +230,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium truncate">{item.product.name}</p>
-                  <p className="text-[11px] text-muted-foreground">{item.product.category.name}</p>
+                  <p className="text-[11px] text-muted-foreground">{item.product.categories?.name ?? ""}</p>
                 </div>
                 <p className="text-xs font-medium shrink-0">{formatPrice(item.product.price * item.quantity)}</p>
               </div>
