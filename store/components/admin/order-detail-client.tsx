@@ -4,17 +4,17 @@ import { useState } from "react";
 import { Save, Loader2 } from "lucide-react";
 import { useToast } from "./toast";
 import { formatPrice, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from "@/lib/utils";
-import type { Order, OrderStatus, PaymentStatus, FulfillmentStatus } from "@/types";
+import type { Order, OrderStatus } from "@/types";
 
 const ORDER_STATUSES: OrderStatus[] = [
   "pending", "confirmed", "processing", "shipped", "delivered", "cancelled", "refunded",
 ];
 
-const PAYMENT_STATUSES: PaymentStatus[] = [
+const PAYMENT_STATUSES: string[] = [
   "unpaid", "paid", "partially_paid", "refunded", "voided",
 ];
 
-const FULFILLMENT_STATUSES: FulfillmentStatus[] = [
+const FULFILLMENT_STATUSES: string[] = [
   "unfulfilled", "partial", "fulfilled", "returned",
 ];
 
