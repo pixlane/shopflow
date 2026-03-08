@@ -6,19 +6,19 @@ import { useRouter } from "next/navigation";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { useToast } from "@/components/admin/toast";
-import type { Product } from "@/types";
+import type { ProductWithCategory } from "@/types";
 
 interface ProductsClientProps {
-  initialProducts: Product[];
+  initialProducts: ProductWithCategory[];
 }
 
 export function ProductsClient({ initialProducts }: ProductsClientProps) {
   const router = useRouter();
   const { success, error } = useToast();
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState<ProductWithCategory[]>(initialProducts);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [toDelete, setToDelete] = useState<Product | null>(null);
+  const [toDelete, setToDelete] = useState<ProductWithCategory | null>(null);
   const [, startTransition] = useTransition();
   const [deleting, setDeleting] = useState(false);
 
