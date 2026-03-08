@@ -105,7 +105,7 @@ export function OrderDetailClient({ order: initial }: { order: Order }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium">{item.productName}</p>
-                  <p className="text-[11px] text-muted-foreground font-mono">{item.sku}</p>
+                  <p className="text-[11px] text-muted-foreground font-mono">{(item as any).sku ?? ""}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-xs font-medium">{formatPrice(item.price * item.quantity)}</p>
