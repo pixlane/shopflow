@@ -24,7 +24,7 @@ interface EditRow {
   name: string;
   slug: string;
   description: string;
-  sortOrder: string;
+  sort_order: string;
 }
 
 export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
@@ -48,7 +48,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
           name: newRow.name,
           slug: newRow.slug || slugify(newRow.name),
           description: newRow.description,
-          sortOrder: parseInt(newRow.sort_order) || 99,
+          sort_order: parseInt(newRow.sort_order) || 99,
         }),
       });
       const data = await res.json();
@@ -75,7 +75,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
           name: editRow.name,
           slug: editRow.slug || slugify(editRow.name),
           description: editRow.description,
-          sortOrder: parseInt(editRow.sort_order) || 99,
+          sort_order: parseInt(editRow.sort_order) || 99,
         }),
       });
       const data = await res.json();
@@ -127,7 +127,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
           <button
             disabled={!!newRow}
             onClick={() =>
-              setNewRow({ name: "", slug: "", description: "", sortOrder: "99" })
+              setNewRow({ name: "", slug: "", description: "", sort_order: "99" })
             }
             className="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-foreground text-background text-xs font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50"
           >
@@ -202,7 +202,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                         type="number"
                         value={newRow.sort_order}
                         onChange={(e) =>
-                          setNewRow((r) => r ? { ...r, sortOrder: e.target.value } : r)
+                          setNewRow((r) => r ? { ...r, sort_order: e.target.value } : r)
                         }
                         className={`${inCls} w-16`}
                       />
@@ -280,7 +280,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                               type="number"
                               value={editRow.sort_order}
                               onChange={(e) =>
-                                setEditRow((r) => r ? { ...r, sortOrder: e.target.value } : r)
+                                setEditRow((r) => r ? { ...r, sort_order: e.target.value } : r)
                               }
                               className={`${inCls} w-16`}
                             />
@@ -330,7 +330,7 @@ export function CategoriesClient({ initialCategories }: CategoriesClientProps) {
                                     name: cat.name,
                                     slug: cat.slug,
                                     description: cat.description ?? "",
-                                    sortOrder: String(cat.sort_order),
+                                    sort_order: String(cat.sort_order),
                                   })
                                 }
                                 className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
