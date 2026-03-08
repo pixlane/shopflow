@@ -127,19 +127,19 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             <AddToCartButton product={product} />
 
             {/* Specs */}
-            {(product.sku || product.weight) && (
+            {((product as any).sku ?? "" || product.weight_grams) && (
               <div className="border-t border-border pt-6 space-y-2.5">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-sans mb-3">Details</p>
-                {product.sku && (
+                {(product as any).sku ?? "" && (
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">SKU</span>
-                    <span className="font-medium font-mono">{product.sku}</span>
+                    <span className="font-medium font-mono">{(product as any).sku ?? ""}</span>
                   </div>
                 )}
-                {product.weight && (
+                {product.weight_grams && (
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Weight</span>
-                    <span>{product.weight}g</span>
+                    <span>{product.weight_grams}g</span>
                   </div>
                 )}
                 {product.tags?.length > 0 && (
