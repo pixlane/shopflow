@@ -30,7 +30,7 @@ export type DbProduct = {
   badge?: string | null
   tags?: string[]
   sku?: string | null
-  weight?: number | null
+  weight_grams?: number | null
   created_at?: string
   updated_at?: string
 }
