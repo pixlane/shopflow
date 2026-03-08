@@ -86,7 +86,7 @@ export default function CartPage() {
                       {item.product.name}
                     </Link>
                     <p className="text-[11px] text-muted-foreground mt-0.5 font-mono">
-                      {item.(product as any).sku ?? ""}
+                      {(item.product as any).sku ?? ""}
                     </p>
                   </div>
                   <p className="text-sm font-medium whitespace-nowrap">
