@@ -71,7 +71,7 @@ export default async function HomePage() {
               {/* floating card */}
               {hero && (
                 <div className="absolute -bottom-4 left-4 bg-white shadow-xl p-4 max-w-[180px] rounded-sm">
-                  <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground mb-1">{hero.category.name}</p>
+                  <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground mb-1">{hero.categories?.name ?? ""}</p>
                   <p className="text-[13px] font-semibold leading-tight mb-1" style={{ color: "var(--body-text)" }}>{hero.name}</p>
                   <p className="text-[13px] font-semibold" style={{ color: "var(--gold)" }}>{formatPrice(hero.price)}</p>
                 </div>
